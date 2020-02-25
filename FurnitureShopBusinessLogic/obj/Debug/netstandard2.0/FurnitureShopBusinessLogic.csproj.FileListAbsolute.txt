@@ -1,0 +1,16 @@
+C:\Users\NULS\source\repos\FurnitureShop\FurnitureShopBusinessLogic\bin\Debug\netstandard2.0\FurnitureShopBusinessLogic.deps.json
+C:\Users\NULS\source\repos\FurnitureShop\FurnitureShopBusinessLogic\bin\Debug\netstandard2.0\FurnitureShopBusinessLogic.dll
+C:\Users\NULS\source\repos\FurnitureShop\FurnitureShopBusinessLogic\obj\Debug\netstandard2.0\FurnitureShopBusinessLogic.csprojAssemblyReference.cache
+C:\Users\NULS\source\repos\FurnitureShop\FurnitureShopBusinessLogic\obj\Debug\netstandard2.0\FurnitureShopBusinessLogic.AssemblyInfoInputs.cache
+C:\Users\NULS\source\repos\FurnitureShop\FurnitureShopBusinessLogic\obj\Debug\netstandard2.0\FurnitureShopBusinessLogic.AssemblyInfo.cs
+C:\Users\NULS\source\repos\FurnitureShop\FurnitureShopBusinessLogic\bin\Debug\netstandard2.0\FurnitureShopBusinessLogic.pdb
+C:\Users\NULS\source\repos\FurnitureShop\FurnitureShopBusinessLogic\obj\Debug\netstandard2.0\FurnitureShopBusinessLogic.dll
+C:\Users\NULS\source\repos\FurnitureShop\FurnitureShopBusinessLogic\obj\Debug\netstandard2.0\FurnitureShopBusinessLogic.pdb
+C:\Users\NULS\Desktop\FurnitureShop\FurnitureShopBusinessLogic\bin\Debug\netstandard2.0\FurnitureShopBusinessLogic.deps.json
+C:\Users\NULS\Desktop\FurnitureShop\FurnitureShopBusinessLogic\bin\Debug\netstandard2.0\FurnitureShopBusinessLogic.dll
+C:\Users\NULS\Desktop\FurnitureShop\FurnitureShopBusinessLogic\bin\Debug\netstandard2.0\FurnitureShopBusinessLogic.pdb
+C:\Users\NULS\Desktop\FurnitureShop\FurnitureShopBusinessLogic\obj\Debug\netstandard2.0\FurnitureShopBusinessLogic.csprojAssemblyReference.cache
+C:\Users\NULS\Desktop\FurnitureShop\FurnitureShopBusinessLogic\obj\Debug\netstandard2.0\FurnitureShopBusinessLogic.AssemblyInfoInputs.cache
+C:\Users\NULS\Desktop\FurnitureShop\FurnitureShopBusinessLogic\obj\Debug\netstandard2.0\FurnitureShopBusinessLogic.AssemblyInfo.cs
+C:\Users\NULS\Desktop\FurnitureShop\FurnitureShopBusinessLogic\obj\Debug\netstandard2.0\FurnitureShopBusinessLogic.dll
+C:\Users\NULS\Desktop\FurnitureShop\FurnitureShopBusinessLogic\obj\Debug\netstandard2.0\FurnitureShopBusinessLogic.pdb
