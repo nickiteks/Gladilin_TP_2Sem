@@ -148,6 +148,10 @@
       <Project>{84008e46-82de-4549-a7ff-1d1c442ed5f4}</Project>
       <Name>FurnitureShopBusinessLogic</Name>
     </ProjectReference>
+    <ProjectReference Include="..\FurnitureShopFileImplement\FurnitureShopFileImplement.csproj">
+      <Project>{4E5CC78A-9434-4CF1-8593-DD673B43EE1C}</Project>
+      <Name>FurnitureShopFileImplement</Name>
+    </ProjectReference>
     <ProjectReference Include="..\FurnitureShopListImplement\FurnitureShopListImplement.csproj">
       <Project>{9f863f29-b0d6-48bf-a183-ee124b66b478}</Project>
       <Name>FurnitureShopListImplement</Name>

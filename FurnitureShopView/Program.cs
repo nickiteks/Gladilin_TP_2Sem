@@ -1,6 +1,6 @@
 ﻿using FurnitureShopBusinessLogic.BusnessLogics;
 using FurnitureShopBusinessLogic.Interfaces;
-using FurnitureShopListImplement.Implements;
+using FurnitureShopFileImplement.Implements;
 using System;
 using System.Windows.Forms;
 using Unity;
@@ -9,7 +9,7 @@ using Unity.Lifetime;
 
 namespace FurnitureShopView
 {
-   static class Program
+    static class Program
    {
     /// <summary>
     /// Главная точка входа для приложения.
