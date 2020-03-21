@@ -123,9 +123,5 @@ namespace FurnitureShopView
             var form = Container.Resolve<FormFurnitures>();
             form.ShowDialog();
         }
-        private void buttonStorage_Click(object sender, EventArgs e)
-        {
-
-        }
     }
 }
