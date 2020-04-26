@@ -8,7 +8,6 @@ using FurnitureShopBusinessLogic.ViewModels;
 using System.Collections.Generic;
 using FurnitureShopBusinessLogic.BusnessLogics;
 using FurnitureShopListImplement.Models;
-using FurnitureShopView;
 
 namespace FurnitureShopView
 {

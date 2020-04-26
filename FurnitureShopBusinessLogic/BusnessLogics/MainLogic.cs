@@ -16,7 +16,6 @@ namespace FurnitureShopBusinessLogic.BusnessLogics
         {
             this.orderLogic = orderLogic;
             this.storageLogic = storageLogic;
-
         }
         public void CreateOrder(CreateOrderBindingModel model)
         {

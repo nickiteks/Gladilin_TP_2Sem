@@ -16,7 +16,7 @@ namespace FurnitureShopView
         public int Id { set { id = value; } }
         private readonly IFurnitureLogic logic;
         private int? id;
-        private Dictionary<int, (string, int)> productComponents;
+        private Dictionary<int, (string, int)> FurnitureComponents;
 
         public FormFurniture(IFurnitureLogic service)
         {
@@ -28,7 +28,7 @@ namespace FurnitureShopView
             dataGridView.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             this.logic = service;
         }
-        private void FormProduct_Load(object sender, EventArgs e)
+        private void FormForniture_Load(object sender, EventArgs e)
         {
             if (id.HasValue)
             {
@@ -42,7 +42,7 @@ namespace FurnitureShopView
                     {
                         textBoxName.Text = view.FurnitureName;
                         textBoxPrice.Text = view.Price.ToString();
-                        productComponents = view.FurnitureComponents;
+                        FurnitureComponents = view.FurnitureComponents;
                         LoadData();
                     }
                 }
@@ -54,17 +54,17 @@ namespace FurnitureShopView
             }
             else
             {
-                productComponents = new Dictionary<int, (string, int)>();
+                FurnitureComponents = new Dictionary<int, (string, int)>();
             }
         }
         private void LoadData()
         {
             try
             {
-                if (productComponents != null)
+                if (FurnitureComponents != null)
                 {
                     dataGridView.Rows.Clear();
-                    foreach (var pc in productComponents)
+                    foreach (var pc in FurnitureComponents)
                     {
                         dataGridView.Rows.Add(new object[] { pc.Key, pc.Value.Item1, pc.Value.Item2 });
                     }
@@ -81,13 +81,13 @@ namespace FurnitureShopView
             var form = Container.Resolve<FormFurnitureComponent>();
             if (form.ShowDialog() == DialogResult.OK)
             {
-                if (productComponents.ContainsKey(form.Id))
+                if (FurnitureComponents.ContainsKey(form.Id))
                 {
-                    productComponents[form.Id] = (form.ComponentName, form.Count);
+                    FurnitureComponents[form.Id] = (form.ComponentName, form.Count);
                 }
                 else
                 {
-                    productComponents.Add(form.Id, (form.ComponentName, form.Count));
+                    FurnitureComponents.Add(form.Id, (form.ComponentName, form.Count));
                 }
                 LoadData();
             }
@@ -99,10 +99,10 @@ namespace FurnitureShopView
                 var form = Container.Resolve<FormFurnitureComponent>();
                 int id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
                 form.Id = id;
-                form.Count = productComponents[id].Item2;
+                form.Count = FurnitureComponents[id].Item2;
                 if (form.ShowDialog() == DialogResult.OK)
                 {
-                    productComponents[form.Id] = (form.ComponentName, form.Count);
+                    FurnitureComponents[form.Id] = (form.ComponentName, form.Count);
                     LoadData();
                 }
             }
@@ -116,8 +116,7 @@ namespace FurnitureShopView
                 {
                     try
                     {
-
-                        productComponents.Remove(Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value));
+                        FurnitureComponents.Remove(Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value));
                     }
                     catch (Exception ex)
                     {
@@ -147,7 +146,7 @@ namespace FurnitureShopView
                MessageBoxIcon.Error);
                 return;
             }
-            if (productComponents == null || productComponents.Count == 0)
+            if (FurnitureComponents == null || FurnitureComponents.Count == 0)
             {
                 MessageBox.Show("Заполните компоненты", "Ошибка", MessageBoxButtons.OK,
                MessageBoxIcon.Error);
@@ -160,7 +159,7 @@ namespace FurnitureShopView
                     Id = id,
                     FurnitureName = textBoxName.Text,
                     Price = Convert.ToDecimal(textBoxPrice.Text),
-                    FurnitureComponents = productComponents
+                    FurnitureComponents = FurnitureComponents
                 });
                 MessageBox.Show("Сохранение прошло успешно", "Сообщение",
                MessageBoxButtons.OK, MessageBoxIcon.Information);
