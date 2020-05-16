@@ -76,8 +76,8 @@ namespace FurnitureShopFileImplement.Implements
         private string GetFurnitureName(int id)
         {
             string name = "";
-            var Furniture = source.Furnitures.FirstOrDefault(x => x.Id == id);
-            name = Furniture != null ? Furniture.FurnitureName : "";
+            var furniture = source.Furnitures.FirstOrDefault(x => x.Id == id);
+            name = furniture != null ? furniture.FurnitureName : "";
             return name;
         }
     }
