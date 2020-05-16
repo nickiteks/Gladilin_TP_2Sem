@@ -10,7 +10,7 @@ namespace FurnitureShopDatabaseImplement.Models
         public string FurnitureName { get; set; }
         [Required]
         public decimal Price { get; set; }
-        public virtual List<FurnitureComponent> FurnitureBillets { get; set; }
+        public virtual List<FurnitureComponent> FurnitureComponents { get; set; }
         public virtual List<Order> Orders { get; set; }
     }
 }
