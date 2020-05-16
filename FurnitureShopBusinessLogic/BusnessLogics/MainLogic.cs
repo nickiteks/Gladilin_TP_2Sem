@@ -1,6 +1,7 @@
 ﻿using FurnitureShopBusinessLogic.BindingModels;
 using FurnitureShopBusinessLogic.Enums;
 using FurnitureShopBusinessLogic.Interfaces;
+using FurnitureShopBusinessLogic.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -10,9 +11,11 @@ namespace FurnitureShopBusinessLogic.BusnessLogics
     public class MainLogic
     {
         private readonly IOrderLogic orderLogic;
-        public MainLogic(IOrderLogic orderLogic)
+        private readonly IStorageLogic storageLogic;
+        public MainLogic(IOrderLogic orderLogic , IStorageLogic storageLogic)
         {
             this.orderLogic = orderLogic;
+            this.storageLogic = storageLogic;
         }
         public void CreateOrder(CreateOrderBindingModel model)
         {
@@ -99,6 +102,10 @@ namespace FurnitureShopBusinessLogic.BusnessLogics
                 DateImplement = order.DateImplement,
                 Status = OrderStatus.Оплачен
             });
+        }
+        public void AddComponents(StorageAddComponentsBindingModel model)
+        {
+            storageLogic.AddComponentToStorage(model);
         }
     }
 }
