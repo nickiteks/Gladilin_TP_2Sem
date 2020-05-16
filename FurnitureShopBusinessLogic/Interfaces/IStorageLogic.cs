@@ -11,5 +11,6 @@ namespace FurnitureShopBusinessLogic.Interfaces
         List<StorageViewModel> Read(StorageBindingModel model);
         void CreateOrUpdate(StorageBindingModel model);
         void Delete(StorageBindingModel model);
+        void AddComponentToStorage(StorageAddComponentsBindingModel model);
     }
 }

@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace FurnitureShopListImplement.Models
+namespace FurnitureShopBusinessLogic.BindingModels
 {
-    public class StorageComponent
+    public class StorageAddComponentsBindingModel
     {
-        public int Id { set; get; }
         public int StorageId { set; get; }
         public int ComponentId { set; get; }
-        public int Count { set; get; }
+        public int ComponentCount { set; get; }
     }
 }

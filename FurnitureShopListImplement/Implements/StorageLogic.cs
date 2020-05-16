@@ -17,89 +17,75 @@ namespace FurnitureShopListImplement.Implements
         {
             source = DataListSingleton.GetInstance();
         }
-        public void CreateOrUpdate(StorageBindingModel model)
+        public void CreateOrUpdate(StorageBindingModel storage)
         {
-            Storage tempStorage = model.Id.HasValue ? null : new Storage
+            Storage tempStorage = storage.Id.HasValue ? null : new Storage
             {
                 Id = 1
             };
-            foreach (var component in source.Storages)
+            foreach (var s in source.Storages)
             {
-                if (!model.Id.HasValue && component.Id >= tempStorage.Id)
+                if (s.StorageName == storage.StorageName && s.Id != storage.Id)
                 {
-                    tempStorage.Id = component.Id + 1;
+                    throw new Exception("Уже есть склад с таким названием");
                 }
-                else if (model.Id.HasValue && component.Id == model.Id)
+                if (!storage.Id.HasValue && s.Id >= tempStorage.Id)
                 {
-                    tempStorage = component;
+                    tempStorage.Id = s.Id + 1;
+                }
+                else if (storage.Id.HasValue && s.Id == storage.Id)
+                {
+                    tempStorage = s;
                 }
             }
-            if (model.Id.HasValue)
+            if (storage.Id.HasValue)
             {
                 if (tempStorage == null)
                 {
                     throw new Exception("Элемент не найден");
                 }
-                CreateModel(model, tempStorage);
+                tempStorage.StorageName = storage.StorageName;
             }
             else
             {
-                source.Storages.Add(CreateModel(model, tempStorage));
+                source.Storages.Add(new Storage()
+                {
+                    Id = tempStorage.Id,
+                    StorageName = storage.StorageName
+                }
+                );
             }
         }
 
         public List<StorageViewModel> Read(StorageBindingModel model)
         {
             List<StorageViewModel> result = new List<StorageViewModel>();
-            foreach (var component in source.Storages)
+            foreach (var storage in source.Storages)
             {
                 if (model != null)
                 {
-                    if (component.Id == model.Id)
+                    if (storage.Id == model.Id)
                     {
-                        result.Add(CreateViewModel(component));
+                        result.Add(new StorageViewModel()
+                        {
+                            Id = storage.Id,
+                            StorageName = storage.StorageName,
+                            StoragedComponents = source.StorageComponents.Where(sm => sm.StorageId == storage.Id)
+                            .ToDictionary(sm => source.Components.FirstOrDefault(c => c.Id == sm.ComponentId).ComponentName, sm => sm.Count)
+                        });
                         break;
                     }
                     continue;
                 }
-                result.Add(CreateViewModel(component));
-            }
-            return result;
-        }
-        private Storage CreateModel(StorageBindingModel model, Storage storage)
-        {
-            storage.StorageName = model.StorageName;
-            int maxSMId = 0;
-            for (int i = 0; i < source.StorageComponents.Count; ++i)
-            {
-                if (source.StorageComponents[i].Id > maxSMId)
+                result.Add(new StorageViewModel()
                 {
-                    maxSMId = source.StorageComponents[i].Id;
-                }
-                if (source.StorageComponents[i].StorageId == storage.Id)
-                {
-                    if (model.StoragedComponents.ContainsKey(source.StorageComponents[i].MaterialId))
-                    {
-                        source.StorageComponents[i].Count = model.StoragedComponents[source.StorageComponents[i].MaterialId].Item2;
-                        model.StoragedComponents.Remove(source.StorageComponents[i].MaterialId);
-                    }
-                    else
-                    {
-                        source.StorageComponents.RemoveAt(i--);
-                    }
-                }
-            }
-            foreach (var sm in model.StoragedComponents)
-            {
-                source.StorageComponents.Add(new StorageComponent
-                {
-                    Id = ++maxSMId,
-                    StorageId = storage.Id,
-                    MaterialId = sm.Key,
-                    Count = sm.Value.Item2
+                    Id = storage.Id,
+                    StorageName = storage.StorageName,
+                    StoragedComponents = source.StorageComponents.Where(sm => sm.StorageId == storage.Id)
+                           .ToDictionary(sm => source.Components.FirstOrDefault(c => c.Id == sm.ComponentId).ComponentName, sm => sm.Count)
                 });
             }
-            return storage;
+            return result;
         }
         public void Delete(StorageBindingModel model)
         {
@@ -120,31 +106,34 @@ namespace FurnitureShopListImplement.Implements
             }
             throw new Exception("Элемент не найден");
         }
-        private StorageViewModel CreateViewModel(Storage storage)
+        public void AddComponentToStorage(StorageAddComponentsBindingModel model)
         {
-            Dictionary<int, (string, int)> storageMaterials = new Dictionary<int, (string, int)>();
-            foreach (var sm in source.StorageComponents)
+            if (source.StorageComponents.Count == 0)
             {
-                if (sm.StorageId == storage.Id)
+                source.StorageComponents.Add(new StorageComponent()
                 {
-                    string componentName = string.Empty;
-                    foreach (var component in source.Components)
-                    {
-                        if (sm.MaterialId == component.Id)
-                        {
-                            componentName = component.ComponentName;
-                            break;
-                        }
-                    }
-                    storageMaterials.Add(sm.MaterialId, (componentName, sm.Count));
-                }
+                    Id = 1,
+                    ComponentId = model.ComponentId,
+                    StorageId = model.StorageId,
+                    Count = model.ComponentCount
+                });
             }
-            return new StorageViewModel
+            else
             {
-                Id = storage.Id,
-                StorageName = storage.StorageName,
-                StoragedComponents = storageMaterials
-            };
+                var component = source.StorageComponents.FirstOrDefault(sm => sm.StorageId == model.StorageId && sm.ComponentId == model.ComponentId);
+                if (component == null)
+                {
+                    source.StorageComponents.Add(new StorageComponent()
+                    {
+                        Id = source.StorageComponents.Max(sm => sm.Id) + 1,
+                        ComponentId = model.ComponentId,
+                        StorageId = model.StorageId,
+                        Count = model.ComponentCount
+                    });
+                }
+                else
+                    component.Count += model.ComponentCount;
+            }
         }
     }
 }

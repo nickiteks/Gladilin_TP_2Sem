@@ -53,8 +53,12 @@ namespace FurnitureShopView
             if (textBoxCount.Text == string.Empty)
                 throw new Exception("Введите количество материала");
 
-            mainLogic.AddMaterials(comboBoxStor.SelectedItem as StorageViewModel, Convert.ToInt32(textBoxCount.Text),
-                comboBoxComponent.SelectedItem as ComponentViewModel);
+            mainLogic.AddComponents(new StorageAddComponentsBindingModel()
+            {
+                StorageId = (comboBoxStor.SelectedItem as StorageViewModel).Id,
+                ComponentId = (comboBoxComponent.SelectedItem as ComponentViewModel).Id,
+                ComponentCount = Convert.ToInt32(textBoxCount.Text)
+            });
             DialogResult = DialogResult.OK;
             Close();
         }

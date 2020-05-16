@@ -38,9 +38,9 @@
             this.компонентыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.списокИзделийToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.складыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.добавитьНаСкладToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dataGridView = new System.Windows.Forms.DataGridView();
             this.buttonStorageAdd = new System.Windows.Forms.Button();
-            this.добавитьНаСкладToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.SuspendLayout();
@@ -137,6 +137,13 @@
             this.складыToolStripMenuItem.Text = "Склады";
             this.складыToolStripMenuItem.Click += new System.EventHandler(this.СкладыToolStripMenuItem_Click);
             // 
+            // добавитьНаСкладToolStripMenuItem
+            // 
+            this.добавитьНаСкладToolStripMenuItem.Name = "добавитьНаСкладToolStripMenuItem";
+            this.добавитьНаСкладToolStripMenuItem.Size = new System.Drawing.Size(121, 20);
+            this.добавитьНаСкладToolStripMenuItem.Text = "Добавить на склад";
+            this.добавитьНаСкладToolStripMenuItem.Click += new System.EventHandler(this.добавитьНаСкладToolStripMenuItem_Click);
+            // 
             // dataGridView
             // 
             this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -154,13 +161,6 @@
             this.buttonStorageAdd.Text = "Добавить на склад";
             this.buttonStorageAdd.UseVisualStyleBackColor = true;
             this.buttonStorageAdd.Click += new System.EventHandler(this.ButtonStorageAdd_Click);
-            // 
-            // добавитьНаСкладToolStripMenuItem
-            // 
-            this.добавитьНаСкладToolStripMenuItem.Name = "добавитьНаСкладToolStripMenuItem";
-            this.добавитьНаСкладToolStripMenuItem.Size = new System.Drawing.Size(121, 20);
-            this.добавитьНаСкладToolStripMenuItem.Text = "Добавить на склад";
-            this.добавитьНаСкладToolStripMenuItem.Click += new System.EventHandler(this.добавитьНаСкладToolStripMenuItem_Click);
             // 
             // FormMain
             // 
@@ -184,6 +184,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
+
         }
 
         #endregion

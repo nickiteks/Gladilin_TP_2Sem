@@ -21,7 +21,7 @@ namespace FurnitureShopView
         public int Id { set { id = value; } }
         private readonly IStorageLogic logic;
         private int? id;
-        private Dictionary<int, (string, int)> StorageCmponents;
+        private Dictionary<string, int> StorageCmponents;
         public FormStorageAdd(IStorageLogic service)
         {
             InitializeComponent();
@@ -54,7 +54,7 @@ namespace FurnitureShopView
             }
             else
             {
-                StorageCmponents = new Dictionary<int, (string, int)>();
+                StorageCmponents = new Dictionary<string, int>();
             }
         }
         private void LoadData()
@@ -66,7 +66,7 @@ namespace FurnitureShopView
                     dataGridViewComponents.Rows.Clear();
                     foreach (var pc in StorageCmponents)
                     {
-                        dataGridViewComponents.Rows.Add(new object[] { pc.Key, pc.Value.Item1, pc.Value.Item2 });
+                        dataGridViewComponents.Rows.Add(new object[] {"", pc.Key, pc.Value});
                     }
                 }
             }
@@ -89,7 +89,6 @@ namespace FurnitureShopView
                 {
                     Id = id ?? null,
                     StorageName = textBoxNameStorage.Text,
-                    StoragedComponents = StorageCmponents
                 });
                 MessageBox.Show("Сохранение прошло успешно", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 DialogResult = DialogResult.OK;

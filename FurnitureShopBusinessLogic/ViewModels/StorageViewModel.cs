@@ -10,6 +10,6 @@ namespace FurnitureShopBusinessLogic.ViewModels
         public int Id { set; get; }
         [DisplayName("Хранилище")]
         public string StorageName { set; get; }
-        public Dictionary<int, (string, int)> StoragedComponents { get; set; }
+        public Dictionary<string, int> StoragedComponents { get; set; }
     }
 }

@@ -103,19 +103,9 @@ namespace FurnitureShopBusinessLogic.BusnessLogics
                 Status = OrderStatus.Оплачен
             });
         }
-        public void AddMaterials(StorageViewModel storage, int count, ComponentViewModel material)
+        public void AddComponents(StorageAddComponentsBindingModel model)
         {
-            if (storage.StoragedComponents.ContainsKey(material.Id))
-                storage.StoragedComponents[material.Id] =
-                    (storage.StoragedComponents[material.Id].Item1, storage.StoragedComponents[material.Id].Item2 + count);
-            else
-                storage.StoragedComponents.Add(material.Id, (material.ComponentName, count));
-            storageLogic.CreateOrUpdate(new StorageBindingModel()
-            {
-                Id = storage.Id,
-                StorageName = storage.StorageName,
-                StoragedComponents = storage.StoragedComponents
-            });
+            storageLogic.AddComponentToStorage(model);
         }
     }
 }

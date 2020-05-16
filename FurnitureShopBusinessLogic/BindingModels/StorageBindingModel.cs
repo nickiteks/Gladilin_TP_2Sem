@@ -8,6 +8,5 @@ namespace FurnitureShopBusinessLogic.BindingModels
     {
         public int? Id { set; get; }
         public string StorageName { set; get; }
-        public Dictionary<int, (string, int)> StoragedComponents { get; set; }
     }
 }
