@@ -12,12 +12,10 @@ namespace FurnitureShopFileImplement.Implements
     public class ComponentLogic : IComponentLogic
     {
         private readonly FileDataListSingleton source;
-
         public ComponentLogic()
         {
             source = FileDataListSingleton.GetInstance();
         }
-
         public void CreateOrUpdate(ComponentBindingModel model)
         {
             Component element = source.Components.FirstOrDefault(rec => rec.ComponentName == model.ComponentName && rec.Id != model.Id);
@@ -64,6 +62,5 @@ namespace FurnitureShopFileImplement.Implements
             })
             .ToList();
         }
-
     }
 }

@@ -12,7 +12,6 @@ namespace FurnitureShopFileImplement.Implements
     public class OrderLogic : IOrderLogic
     {
         private readonly FileDataListSingleton source;
-
         public OrderLogic()
         {
             source = FileDataListSingleton.GetInstance();

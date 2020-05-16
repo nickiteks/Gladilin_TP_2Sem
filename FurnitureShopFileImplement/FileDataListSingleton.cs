@@ -1,5 +1,5 @@
 ﻿using FurnitureShopBusinessLogic.Enums;
-using FurnitureShopListImplement.Models;
+using FurnitureShopFileImplement.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -18,14 +18,12 @@ namespace FurnitureShopFileImplement
         private readonly string FurnitureComponentFileName = "FurnitureComponent.xml";
         private readonly string StorageFileName = "Storage.xml";
         private readonly string StorageComponentFileName = "StorageComponent.xml";
-
         public List<Component> Components { get; set; }
         public List<Order> Orders { get; set; }
         public List<Furniture> Furnitures { get; set; }
         public List<FurnitureComponent> FurnitureComponents { get; set; }
         public List<Storage> Storages { set; get; }
         public List<StorageComponent> StorageComponents { set; get; }
-
         private FileDataListSingleton()
         {
             Components = LoadComponents();
@@ -35,7 +33,6 @@ namespace FurnitureShopFileImplement
             Storages = LoadStorages();
             StorageComponents = LoadStorageMaterials();
         }
-
         public static FileDataListSingleton GetInstance()
         {
             if (instance == null)
@@ -44,7 +41,6 @@ namespace FurnitureShopFileImplement
             }
             return instance;
         }
-
         ~FileDataListSingleton()
         {
             SaveComponents();
@@ -54,7 +50,6 @@ namespace FurnitureShopFileImplement
             SaveStorageMaterials();
             SaveStorages();
         }
-
         private List<Component> LoadComponents()
         {
             var list = new List<Component>();
@@ -73,7 +68,6 @@ namespace FurnitureShopFileImplement
             }
             return list;
         }
-
         private List<Order> LoadOrders()
         {
             var list = new List<Order>();
@@ -100,7 +94,6 @@ namespace FurnitureShopFileImplement
             }
             return list;
         }
-
         private List<Furniture> LoadProducts()
         {
             var list = new List<Furniture>();
@@ -120,7 +113,6 @@ namespace FurnitureShopFileImplement
             }
             return list;
         }
-
         private List<FurnitureComponent> LoadProductComponents()
         {
             var list = new List<FurnitureComponent>();
@@ -181,7 +173,6 @@ namespace FurnitureShopFileImplement
             }
             return list;
         }
-
         private void SaveComponents()
         {
             if (Components != null)
@@ -197,7 +188,6 @@ namespace FurnitureShopFileImplement
                 xDocument.Save(ComponentFileName);
             }
         }
-
         private void SaveOrders()
         {
             if (Orders != null)
@@ -218,7 +208,6 @@ namespace FurnitureShopFileImplement
                 xDocument.Save(OrderFileName);
             }
         }
-
         private void SaveProducts()
         {
             if (Furnitures != null)
@@ -235,7 +224,6 @@ namespace FurnitureShopFileImplement
                 xDocument.Save(FurnitureFileName);
             }
         }
-
         private void SaveProductComponents()
         {
             if (FurnitureComponents != null)
@@ -253,7 +241,6 @@ namespace FurnitureShopFileImplement
                 xDocument.Save(FurnitureComponentFileName);
             }
         }
-
         private void SaveStorages()
         {
             if (Storages != null)
@@ -287,6 +274,5 @@ namespace FurnitureShopFileImplement
                 xDocument.Save(StorageComponentFileName);
             }
         }
-
     }
 }
