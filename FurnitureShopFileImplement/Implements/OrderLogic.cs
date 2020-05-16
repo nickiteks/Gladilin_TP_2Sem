@@ -17,6 +17,8 @@ namespace FurnitureShopFileImplement.Implements
         {
             source = FileDataListSingleton.GetInstance(); 
         }
+
+
         public void CreateOrUpdate(OrderBindingModel model)
         {
             Order element;
@@ -60,11 +62,11 @@ namespace FurnitureShopFileImplement.Implements
         public List<OrderViewModel> Read(OrderBindingModel model)
         {
             return source.Orders
-            .Where(rec => model == null || rec.Id == model.Id)
+            .Where(rec => model == null || rec.Id == model.Id || (model.DateFrom.HasValue && model.DateTo.HasValue && rec.DateCreate >= model.DateFrom && rec.DateCreate <= model.DateTo))
             .Select(rec => new OrderViewModel
             {
                 Id = rec.Id,
-                FurnitureName = GetForgeProductName(rec.FurnitureId),
+                FurnitureName = GetFurnitureName(rec.FurnitureId),
                 Count = rec.Count,
                 Sum = rec.Sum,
                 Status = rec.Status,
@@ -73,11 +75,11 @@ namespace FurnitureShopFileImplement.Implements
             })
             .ToList();
         }
-        private string GetForgeProductName(int id)
+        private string GetFurnitureName(int id)
         {
             string name = "";
-            var ForgeProduct = source.Furnitures.FirstOrDefault(x => x.Id == id);
-            name = ForgeProduct != null ? ForgeProduct.FurnitureName : "";
+            var furniture = source.Furnitures.FirstOrDefault(x => x.Id == id);
+            name = furniture != null ? furniture.FurnitureName : "";
             return name;
         }
     }

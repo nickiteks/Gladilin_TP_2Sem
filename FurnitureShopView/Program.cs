@@ -9,7 +9,7 @@ using Unity.Lifetime;
 
 namespace FurnitureShopView
 {
-   static class Program
+    static class Program
    {
     /// <summary>
     /// Главная точка входа для приложения.
@@ -32,6 +32,7 @@ namespace FurnitureShopView
             currentContainer.RegisterType<IFurnitureLogic, FurnitureLogic>(new
            HierarchicalLifetimeManager());
             currentContainer.RegisterType<MainLogic>(new HierarchicalLifetimeManager());
+            currentContainer.RegisterType<ReportLogic>(new HierarchicalLifetimeManager());
             return currentContainer;
     }
    }    
