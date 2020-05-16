@@ -64,7 +64,7 @@ namespace FurnitureShopFileImplement.Implements
             .Select(rec => new OrderViewModel
             {
                 Id = rec.Id,
-                FurnitureName = GetForgeProductName(rec.FurnitureId),
+                FurnitureName = GetFurnitureName(rec.FurnitureId),
                 Count = rec.Count,
                 Sum = rec.Sum,
                 Status = rec.Status,
@@ -73,11 +73,11 @@ namespace FurnitureShopFileImplement.Implements
             })
             .ToList();
         }
-        private string GetForgeProductName(int id)
+        private string GetFurnitureName(int id)
         {
             string name = "";
-            var ForgeProduct = source.Furnitures.FirstOrDefault(x => x.Id == id);
-            name = ForgeProduct != null ? ForgeProduct.FurnitureName : "";
+            var furniture = source.Furnitures.FirstOrDefault(x => x.Id == id);
+            name = furniture != null ? furniture.FurnitureName : "";
             return name;
         }
     }
