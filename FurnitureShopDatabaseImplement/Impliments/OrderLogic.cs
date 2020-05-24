@@ -44,8 +44,7 @@ namespace FurnitureShopDatabaseImplement.Impliments
         {
             using (var context = new FurnitureShopDatabase())
             {
-                Order element = context.Orders.FirstOrDefault(rec => rec.Id ==
-model.Id);
+                Order element = context.Orders.FirstOrDefault(rec => rec.Id == model.Id);
                 if (element != null)
                 {
                     context.Orders.Remove(element);
@@ -62,11 +61,15 @@ model.Id);
             using (var context = new FurnitureShopDatabase())
             {
                 return context.Orders
-            .Include(rec => rec.Furnitures)
-            .Where(rec => model == null || rec.Id == model.Id)
+            .Where(
+                    rec => model == null
+                    || (rec.Id == model.Id && model.Id.HasValue)
+                    || (model.DateFrom.HasValue && model.DateTo.HasValue && rec.DateCreate >= model.DateFrom && rec.DateCreate <= model.DateTo)
+                )
             .Select(rec => new OrderViewModel
             {
                 Id = rec.Id,
+                FurnitureId = rec.FurnitureId,
                 FurnitureName = rec.Furnitures.FurnitureName,
                 Count = rec.Count,
                 Sum = rec.Sum,
