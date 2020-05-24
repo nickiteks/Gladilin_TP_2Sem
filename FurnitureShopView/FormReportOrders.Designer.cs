@@ -66,7 +66,7 @@
             this.Controls.Add(this.reportViewer);
             this.Controls.Add(this.buttonToPdf);
             this.Name = "FormReportOrders";
-            this.Text = "FormReportOrders";
+            this.Text = "Отчет по заказам";
             this.Load += new System.EventHandler(this.FormReportOrders_Load);
             ((System.ComponentModel.ISupportInitialize)(this.reportOrdersViewModelBindingSource)).EndInit();
             this.ResumeLayout(false);
