@@ -13,6 +13,5 @@ namespace FurnitureShopBusinessLogic.Interfaces
         void Delete(StorageBindingModel model);
         void AddComponentToStorage(StorageAddComponentsBindingModel model);
         bool RemoveComponents(OrderViewModel order);
-        bool CheckingStoragedComponents(OrderViewModel order);
     }
 }
