@@ -135,5 +135,52 @@ namespace FurnitureShopListImplement.Implements
                     component.Count += model.ComponentCount;
             }
         }
+        public bool RemoveComponents(OrderViewModel order)
+        {
+            if (CheckingStoragedComponents(order))
+            {
+                var furnitureComponents = source.FurnitureComponents.Where(dm => dm.FurnitureId == order.FurnitureId);
+                foreach (var dm in furnitureComponents)
+                {
+                    int componentCount = dm.Count * order.Count;
+                    foreach (var sm in source.StorageComponents)
+                    {
+                        if (sm.ComponentId == dm.ComponentId && sm.Count >= componentCount)
+                        {
+                            sm.Count -= componentCount;
+                            break;
+                        }
+                        else if (sm.ComponentId == dm.ComponentId && sm.Count < componentCount)
+                        {
+                            componentCount -= sm.Count;
+                            sm.Count = 0;
+                        }
+                    }
+                }
+                return true;
+            }
+            else
+                return false;
+        }
+        public bool CheckingStoragedComponents(OrderViewModel order)
+        {
+            var furnitureComponent = source.FurnitureComponents.Where(dm => dm.FurnitureId == order.FurnitureId);
+            var componentStorages = new Dictionary<int, int>();
+            foreach (var sm in source.StorageComponents)
+            {
+                if (componentStorages.ContainsKey(sm.ComponentId))
+                    componentStorages[sm.ComponentId] += sm.Count;
+                else
+                    componentStorages.Add(sm.ComponentId, sm.Count);
+            }
+
+            foreach (var dm in furnitureComponent)
+            {
+                if (!componentStorages.ContainsKey(dm.ComponentId) || componentStorages[dm.ComponentId] < dm.Count * order.Count)
+                    return false;
+            }
+
+            return true;
+        }
     }
 }
