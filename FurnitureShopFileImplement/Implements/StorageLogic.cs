@@ -85,5 +85,81 @@ namespace FurnitureShopFileImplement.Implements
             })
             .ToList();
         }
+        public void AddComponentToStorage(StorageAddComponentsBindingModel model)
+        {
+            if (source.StorageComponents.Count == 0)
+            {
+                source.StorageComponents.Add(new StorageComponent()
+                {
+                    Id = 1,
+                    ComponentId = model.ComponentId,
+                    StorageId = model.StorageId,
+                    Count = model.ComponentCount
+                });
+            }
+            else
+            {
+                var component = source.StorageComponents.FirstOrDefault(sm => sm.StorageId == model.StorageId && sm.ComponentId == model.ComponentId);
+                if (component == null)
+                {
+                    source.StorageComponents.Add(new StorageComponent()
+                    {
+                        Id = source.StorageComponents.Max(sm => sm.Id) + 1,
+                        ComponentId = model.ComponentId,
+                        StorageId = model.StorageId,
+                        Count = model.ComponentCount
+                    });
+                }
+                else
+                    component.Count += model.ComponentCount;
+            }
+        }
+        public bool CheckingStoragedComponents(OrderViewModel order)
+        {
+            var furnitureComponents = source.FurnitureComponents.Where(dm => dm.FurnitureId == order.FurnitureId);
+            var componentStorages = new Dictionary<int, int>();
+            foreach (var sm in source.StorageComponents)
+            {
+                if (componentStorages.ContainsKey(sm.ComponentId))
+                    componentStorages[sm.ComponentId] += sm.Count;
+                else
+                    componentStorages.Add(sm.ComponentId, sm.Count);
+            }
+
+            foreach (var dm in furnitureComponents)
+            {
+                if (!componentStorages.ContainsKey(dm.ComponentId) || componentStorages[dm.ComponentId] < dm.Count * order.Count)
+                    return false;
+            }
+
+            return true;
+        }
+        public bool RemoveComponents(OrderViewModel order)
+        {
+            if (CheckingStoragedComponents(order))
+            {
+                var furnitureComponent = source.FurnitureComponents.Where(dm => dm.FurnitureId == order.FurnitureId);
+                foreach (var dm in furnitureComponent)
+                {
+                    int componentCount = dm.Count * order.Count;
+                    foreach (var sm in source.StorageComponents)
+                    {
+                        if (sm.ComponentId == dm.ComponentId && sm.Count >= componentCount)
+                        {
+                            sm.Count -= componentCount;
+                            break;
+                        }
+                        else if (sm.MaterialId == dm.ComponentId && sm.Count < componentCount)
+                        {
+                            componentCount -= sm.Count;
+                            sm.Count = 0;
+                        }
+                    }
+                }
+                return true;
+            }
+            else
+                return false;
+        }
     }
 }
