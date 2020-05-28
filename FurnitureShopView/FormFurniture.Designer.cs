@@ -160,7 +160,7 @@
             this.buttonCancel.UseVisualStyleBackColor = true;
             this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
             // 
-            // FormProduct
+            // FormFurniture
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -172,7 +172,7 @@
             this.Controls.Add(this.labelPrice);
             this.Controls.Add(this.labelName);
             this.Controls.Add(this.groupBox);
-            this.Name = "FormProduct";
+            this.Name = "FormFurniture";
             this.Text = "Изделие";
             this.Load += new System.EventHandler(this.FormForniture_Load);
             this.groupBox.ResumeLayout(false);

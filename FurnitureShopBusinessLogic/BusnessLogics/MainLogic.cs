@@ -1,6 +1,7 @@
 ﻿using FurnitureShopBusinessLogic.BindingModels;
 using FurnitureShopBusinessLogic.Enums;
 using FurnitureShopBusinessLogic.Interfaces;
+using FurnitureShopBusinessLogic.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -10,9 +11,11 @@ namespace FurnitureShopBusinessLogic.BusnessLogics
     public class MainLogic
     {
         private readonly IOrderLogic orderLogic;
-        public MainLogic(IOrderLogic orderLogic)
+        private readonly IStorageLogic storageLogic;
+        public MainLogic(IOrderLogic orderLogic , IStorageLogic storageLogic)
         {
             this.orderLogic = orderLogic;
+            this.storageLogic = storageLogic;
         }
         public void CreateOrder(CreateOrderBindingModel model)
         {
@@ -35,20 +38,25 @@ namespace FurnitureShopBusinessLogic.BusnessLogics
             {
                 throw new Exception("Не найден заказ");
             }
-            if (order.Status != OrderStatus.Принят)
+            if (storageLogic.RemoveComponents(order))
             {
-                throw new Exception("Заказ не в статусе \"Принят\"");
+                if (order.Status != OrderStatus.Принят)
+                {
+                    throw new Exception("Заказ не в статусе \"Принят\"");
+                }
+                orderLogic.CreateOrUpdate(new OrderBindingModel
+                {
+                    Id = order.Id,
+                    FurnitureId = order.FurnitureId,
+                    Count = order.Count,
+                    Sum = order.Sum,
+                    DateCreate = order.DateCreate,
+                    DateImplement = DateTime.Now,
+                    Status = OrderStatus.Выполняется
+                });
             }
-            orderLogic.CreateOrUpdate(new OrderBindingModel
-            {
-                Id = order.Id,
-                FurnitureId = order.FurnitureId,
-                Count = order.Count,
-                Sum = order.Sum,
-                DateCreate = order.DateCreate,
-                DateImplement = DateTime.Now,
-                Status = OrderStatus.Выполняется
-            });
+            else
+                throw new Exception("Не хватает компонентов на складах!");
         }
         public void FinishOrder(ChangeStatusBindingModel model)
         {
@@ -99,6 +107,10 @@ namespace FurnitureShopBusinessLogic.BusnessLogics
                 DateImplement = order.DateImplement,
                 Status = OrderStatus.Оплачен
             });
+        }
+        public void AddComponents(StorageAddComponentsBindingModel model)
+        {
+            storageLogic.AddComponentToStorage(model);
         }
     }
 }

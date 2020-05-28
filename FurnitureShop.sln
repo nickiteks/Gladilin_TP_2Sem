@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29806.167
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FurnitureShopBusinessLogic", "FurnitureShopBusinessLogic\FurnitureShopBusinessLogic.csproj", "{84008E46-82DE-4549-A7FF-1D1C442ED5F4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FurnitureShopBusinessLogic", "FurnitureShopBusinessLogic\FurnitureShopBusinessLogic.csproj", "{84008E46-82DE-4549-A7FF-1D1C442ED5F4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FurnitureShopListImplement", "FurnitureShopListImplement\FurnitureShopListImplement.csproj", "{9F863F29-B0D6-48BF-A183-EE124B66B478}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FurnitureShopListImplement", "FurnitureShopListImplement\FurnitureShopListImplement.csproj", "{9F863F29-B0D6-48BF-A183-EE124B66B478}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FurnitureShopView", "FurnitureShopView\FurnitureShopView.csproj", "{D853DABE-58C8-4389-83C3-F5610BEC059C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FurnitureShopView", "FurnitureShopView\FurnitureShopView.csproj", "{B9BCC2F9-87D7-4874-BBE5-97F65245DF67}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +23,10 @@ Global
 		{9F863F29-B0D6-48BF-A183-EE124B66B478}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9F863F29-B0D6-48BF-A183-EE124B66B478}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9F863F29-B0D6-48BF-A183-EE124B66B478}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D853DABE-58C8-4389-83C3-F5610BEC059C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D853DABE-58C8-4389-83C3-F5610BEC059C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D853DABE-58C8-4389-83C3-F5610BEC059C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D853DABE-58C8-4389-83C3-F5610BEC059C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B9BCC2F9-87D7-4874-BBE5-97F65245DF67}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B9BCC2F9-87D7-4874-BBE5-97F65245DF67}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B9BCC2F9-87D7-4874-BBE5-97F65245DF67}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B9BCC2F9-87D7-4874-BBE5-97F65245DF67}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

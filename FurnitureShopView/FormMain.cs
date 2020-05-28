@@ -123,5 +123,23 @@ namespace FurnitureShopView
             var form = Container.Resolve<FormFurnitures>();
             form.ShowDialog();
         }
+
+        private void СкладыToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormStorage>();
+            form.ShowDialog();
+        }
+
+        private void ButtonStorageAdd_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormStorageComonent>();
+            form.ShowDialog();
+        }
+
+        private void добавитьНаСкладToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormStorageComonent>();
+            form.ShowDialog();
+        }
     }
 }

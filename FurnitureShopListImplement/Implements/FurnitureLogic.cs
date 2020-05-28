@@ -17,7 +17,7 @@ namespace FurnitureShopListImplement.Implements
         public void CreateOrUpdate(FurnitureBindingModel model)
         {
             Furniture tempProduct = model.Id.HasValue ? null : new Furniture { Id = 1 };
-            foreach (var product in source.Products)
+            foreach (var product in source.Furnitures)
             {
                 if (product.FurnitureName == model.FurnitureName && product.Id != model.Id)
                 {
@@ -42,24 +42,24 @@ namespace FurnitureShopListImplement.Implements
             }
             else
             {
-                source.Products.Add(CreateModel(model, tempProduct));
+                source.Furnitures.Add(CreateModel(model, tempProduct));
             }
         }
         public void Delete(FurnitureBindingModel model)
         {
             // удаляем записи по компонентам при удалении изделия
-            for (int i = 0; i < source.ProductComponents.Count; ++i)
+            for (int i = 0; i < source.FurnitureComponents.Count; ++i)
             {
-                if (source.ProductComponents[i].FurnitureId == model.Id)
+                if (source.FurnitureComponents[i].FurnitureId == model.Id)
                 {
-                    source.ProductComponents.RemoveAt(i--);
+                    source.FurnitureComponents.RemoveAt(i--);
                 }
             }
-            for (int i = 0; i < source.Products.Count; ++i)
+            for (int i = 0; i < source.Furnitures.Count; ++i)
             {
-                if (source.Products[i].Id == model.Id)
+                if (source.Furnitures[i].Id == model.Id)
                 {
-                    source.Products.RemoveAt(i);
+                    source.Furnitures.RemoveAt(i);
                     return;
                 }
             }
@@ -71,35 +71,35 @@ namespace FurnitureShopListImplement.Implements
             product.Price = model.Price;
             //обновляем существуюущие компоненты и ищем максимальный идентификатор
             int maxPCId = 0;
-            for (int i = 0; i < source.ProductComponents.Count; ++i)
+            for (int i = 0; i < source.FurnitureComponents.Count; ++i)
             {
-                if (source.ProductComponents[i].Id > maxPCId)
+                if (source.FurnitureComponents[i].Id > maxPCId)
                 {
-                    maxPCId = source.ProductComponents[i].Id;
+                    maxPCId = source.FurnitureComponents[i].Id;
                 }
-                if (source.ProductComponents[i].FurnitureId == product.Id)
+                if (source.FurnitureComponents[i].FurnitureId == product.Id)
                 {
                     // если в модели пришла запись компонента с таким id
                     if
-                    (model.FurnitureComponents.ContainsKey(source.ProductComponents[i].ComponentId))
+                    (model.FurnitureComponents.ContainsKey(source.FurnitureComponents[i].ComponentId))
                     {
                         // обновляем количество
-                        source.ProductComponents[i].Count =
-                        model.FurnitureComponents[source.ProductComponents[i].ComponentId].Item2;
+                        source.FurnitureComponents[i].Count =
+                        model.FurnitureComponents[source.FurnitureComponents[i].ComponentId].Item2;
                         // из модели убираем эту запись, чтобы остались только не
                     
-model.FurnitureComponents.Remove(source.ProductComponents[i].ComponentId);
+model.FurnitureComponents.Remove(source.FurnitureComponents[i].ComponentId);
                     }
                     else
                     {
-                        source.ProductComponents.RemoveAt(i--);
+                        source.FurnitureComponents.RemoveAt(i--);
                      }
                 }
             }
             // новые записи
             foreach (var pc in model.FurnitureComponents)
             {
-                source.ProductComponents.Add(new FurnitureComponent
+                source.FurnitureComponents.Add(new FurnitureComponent
                 {
                     Id = ++maxPCId,
                     FurnitureId = product.Id,
@@ -112,7 +112,7 @@ model.FurnitureComponents.Remove(source.ProductComponents[i].ComponentId);
         public List<FurnitureViewModel> Read(FurnitureBindingModel model)
         {
             List<FurnitureViewModel> result = new List<FurnitureViewModel>();
-            foreach (var component in source.Products)
+            foreach (var component in source.Furnitures)
             {
                 if (model != null)
                 {
@@ -132,7 +132,7 @@ model.FurnitureComponents.Remove(source.ProductComponents[i].ComponentId);
             // требуется дополнительно получить список компонентов для изделия с
         Dictionary<int, (string, int)> productComponents = new Dictionary<int,
 (string, int)>();
-            foreach (var pc in source.ProductComponents)
+            foreach (var pc in source.FurnitureComponents)
             {
                 if (pc.FurnitureId == product.Id)
                 {
