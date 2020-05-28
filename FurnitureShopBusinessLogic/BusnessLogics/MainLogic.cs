@@ -38,20 +38,25 @@ namespace FurnitureShopBusinessLogic.BusnessLogics
             {
                 throw new Exception("Не найден заказ");
             }
-            if (order.Status != OrderStatus.Принят)
+            if (storageLogic.RemoveComponents(order))
             {
-                throw new Exception("Заказ не в статусе \"Принят\"");
+                if (order.Status != OrderStatus.Принят)
+                {
+                    throw new Exception("Заказ не в статусе \"Принят\"");
+                }
+                orderLogic.CreateOrUpdate(new OrderBindingModel
+                {
+                    Id = order.Id,
+                    FurnitureId = order.FurnitureId,
+                    Count = order.Count,
+                    Sum = order.Sum,
+                    DateCreate = order.DateCreate,
+                    DateImplement = DateTime.Now,
+                    Status = OrderStatus.Выполняется
+                });
             }
-            orderLogic.CreateOrUpdate(new OrderBindingModel
-            {
-                Id = order.Id,
-                FurnitureId = order.FurnitureId,
-                Count = order.Count,
-                Sum = order.Sum,
-                DateCreate = order.DateCreate,
-                DateImplement = DateTime.Now,
-                Status = OrderStatus.Выполняется
-            });
+            else
+                throw new Exception("Не хватает компонентов на складах!");
         }
         public void FinishOrder(ChangeStatusBindingModel model)
         {
