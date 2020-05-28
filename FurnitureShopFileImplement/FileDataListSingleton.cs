@@ -16,16 +16,23 @@ namespace FurnitureShopFileImplement
         private readonly string OrderFileName = "Order.xml";
         private readonly string FurnitureFileName = "Furniture.xml";
         private readonly string FurnitureComponentFileName = "FurnitureComponent.xml";
+
+        private readonly string StorageFileName = "Storage.xml";
+        private readonly string StorageComponentFileName = "StorageComponent.xml";
         public List<Component> Components { get; set; }
         public List<Order> Orders { get; set; }
         public List<Furniture> Furnitures { get; set; }
         public List<FurnitureComponent> FurnitureComponents { get; set; }
+        public List<Storage> Storages { set; get; }
+        public List<StorageComponent> StorageComponents { set; get; }
         private FileDataListSingleton()
         {
             Components = LoadComponents();
             Orders = LoadOrders();
             Furnitures = LoadProducts();
             FurnitureComponents = LoadProductComponents();
+            Storages = LoadStorages();
+            StorageComponents = LoadStorageMaterials();
         }
         public static FileDataListSingleton GetInstance()
         {
@@ -41,6 +48,8 @@ namespace FurnitureShopFileImplement
             SaveOrders();
             SaveProducts();
             SaveProductComponents();
+            SaveStorageMaterials();
+            SaveStorages();
         }
         private List<Component> LoadComponents()
         {
@@ -67,22 +76,21 @@ namespace FurnitureShopFileImplement
             {
                 XDocument xDocument = XDocument.Load(OrderFileName);
                 var xElements = xDocument.Root.Elements("Order").ToList();
-                foreach (var elem in xElements)
+                if (xElements != null)
                 {
-                    list.Add(new Order
+                    foreach (var elem in xElements)
                     {
-                        Id = Convert.ToInt32(elem.Attribute("Id").Value),
-                        FurnitureId = Convert.ToInt32(elem.Element("ProductId").Value),
-                        Count = Convert.ToInt32(elem.Element("Count").Value),
-                        Sum = Convert.ToDecimal(elem.Element("Sum").Value),
-                        Status = (OrderStatus)Enum.Parse(typeof(OrderStatus),
-                   elem.Element("Status").Value),
-                        DateCreate =
-                   Convert.ToDateTime(elem.Element("DateCreate").Value),
-                        DateImplement =
-                   string.IsNullOrEmpty(elem.Element("DateImplement").Value) ? (DateTime?)null :
-                   Convert.ToDateTime(elem.Element("DateImplement").Value),
-                    });
+                        list.Add(new Order
+                        {
+                            Id = Convert.ToInt32(elem.Attribute("Id").Value),
+                            FurnitureId = Convert.ToInt32(elem.Element("FurnitureId").Value),
+                            Count = Convert.ToInt32(elem.Element("Count").Value),
+                            Sum = Convert.ToDecimal(elem.Element("Sum").Value),
+                            Status = (OrderStatus)Enum.Parse(typeof(OrderStatus), elem.Element("Status").Value),
+                            DateCreate = Convert.ToDateTime(elem.Element("DateCreate").Value),
+                            DateImplement = string.IsNullOrEmpty(elem.Element("DateImplement").Value) ? (DateTime?)null : Convert.ToDateTime(elem.Element("DateImplement").Value)
+                        });
+                    }
                 }
             }
             return list;
@@ -93,33 +101,74 @@ namespace FurnitureShopFileImplement
             if (File.Exists(FurnitureFileName))
             {
                 XDocument xDocument = XDocument.Load(FurnitureFileName);
-                var xElements = xDocument.Root.Elements("Product").ToList();
+                var xElements = xDocument.Root.Elements("Furniture").ToList();
                 foreach (var elem in xElements)
                 {
                     list.Add(new Furniture
                     {
                         Id = Convert.ToInt32(elem.Attribute("Id").Value),
-                        FurnitureName = elem.Element("ProductName").Value,
+                        FurnitureName = elem.Element("FurnitureName").Value,
                         Price = Convert.ToDecimal(elem.Element("Price").Value)
                     });
                 }
             }
             return list;
         }
+
         private List<FurnitureComponent> LoadProductComponents()
         {
             var list = new List<FurnitureComponent>();
             if (File.Exists(FurnitureComponentFileName))
             {
                 XDocument xDocument = XDocument.Load(FurnitureComponentFileName);
-                var xElements = xDocument.Root.Elements("ProductComponent").ToList();
+                var xElements = xDocument.Root.Elements("FurnitureComponent").ToList();
                 foreach (var elem in xElements)
                 {
                     list.Add(new FurnitureComponent
                     {
                         Id = Convert.ToInt32(elem.Attribute("Id").Value),
-                        FurnitureId = Convert.ToInt32(elem.Element("ProductId").Value),
+                        FurnitureId = Convert.ToInt32(elem.Element("FurnitureId").Value),
                         ComponentId = Convert.ToInt32(elem.Element("ComponentId").Value),
+                        Count = Convert.ToInt32(elem.Element("Count").Value)
+                    });
+                }
+            }
+            return list;
+        }
+
+        private List<Storage> LoadStorages()
+        {
+            var list = new List<Storage>();
+            if (File.Exists(StorageFileName))
+            {
+                XDocument xDocument = XDocument.Load(StorageFileName);
+                var xElements = xDocument.Root.Elements("Storage").ToList();
+                foreach (var elem in xElements)
+                {
+                    list.Add(new Storage()
+                    {
+                        Id = Convert.ToInt32(elem.Attribute("Id").Value),
+                        StorageName = elem.Element("StorageName").Value.ToString()
+                    });
+                }
+            }
+            return list;
+        }
+
+        private List<StorageComponent> LoadStorageMaterials()
+        {
+            var list = new List<StorageComponent>();
+            if (File.Exists(StorageComponentFileName))
+            {
+                XDocument xDocument = XDocument.Load(StorageComponentFileName);
+                var xElements = xDocument.Root.Elements("StorageMaterial").ToList();
+                foreach (var elem in xElements)
+                {
+                    list.Add(new StorageComponent()
+                    {
+                        Id = Convert.ToInt32(elem.Attribute("Id").Value),
+                        ComponentId = Convert.ToInt32(elem.Element("ComponentId").Value),
+                        StorageId = Convert.ToInt32(elem.Element("StorageId").Value),
                         Count = Convert.ToInt32(elem.Element("Count").Value)
                     });
                 }
@@ -150,7 +199,8 @@ namespace FurnitureShopFileImplement
                 {
                     xElement.Add(new XElement("Order",
                     new XAttribute("Id", order.Id),
-                    new XElement("ProductId", order.FurnitureId),
+
+                    new XElement("FurnitureId", order.FurnitureId),
                     new XElement("Count", order.Count),
                     new XElement("Sum", order.Sum),
                     new XElement("Status", order.Status),
@@ -165,10 +215,10 @@ namespace FurnitureShopFileImplement
         {
             if (Furnitures != null)
             {
-                var xElement = new XElement("Products");
+                var xElement = new XElement("Furnitures");
                 foreach (var product in Furnitures)
                 {
-                    xElement.Add(new XElement("Product",
+                    xElement.Add(new XElement("Furniture",
                     new XAttribute("Id", product.Id),
                     new XElement("FurnitureName", product.FurnitureName),
                     new XElement("Price", product.Price)));
@@ -181,17 +231,52 @@ namespace FurnitureShopFileImplement
         {
             if (FurnitureComponents != null)
             {
-                var xElement = new XElement("ProductComponents");
+
+                var xElement = new XElement("FurnitureComponents");
                 foreach (var productComponent in FurnitureComponents)
                 {
-                    xElement.Add(new XElement("ProductComponent",
+                    xElement.Add(new XElement("FurnitureComponent",
                     new XAttribute("Id", productComponent.Id),
-                    new XElement("ProductId", productComponent.FurnitureId),
+                    new XElement("FurnitureId", productComponent.FurnitureId),
                     new XElement("ComponentId", productComponent.ComponentId),
                     new XElement("Count", productComponent.Count)));
                 }
                 XDocument xDocument = new XDocument(xElement);
                 xDocument.Save(FurnitureComponentFileName);
+            }
+        }
+
+        private void SaveStorages()
+        {
+            if (Storages != null)
+            {
+                var xElement = new XElement("Storages");
+                foreach (var elem in Storages)
+                {
+                    xElement.Add(new XElement("Storage",
+                        new XAttribute("Id", elem.Id),
+                        new XElement("StorageName", elem.StorageName)));
+                }
+                XDocument xDocument = new XDocument(xElement);
+                xDocument.Save(StorageFileName);
+            }
+        }
+
+        private void SaveStorageMaterials()
+        {
+            if (StorageComponents != null)
+            {
+                var xElement = new XElement("StorageComponents");
+                foreach (var elem in StorageComponents)
+                {
+                    xElement.Add(new XElement("StorageComponent",
+                        new XAttribute("Id", elem.Id),
+                        new XElement("ComponentId", elem.ComponentId),
+                        new XElement("StorageId", elem.StorageId),
+                        new XElement("Count", elem.Count)));
+                }
+                XDocument xDocument = new XDocument(xElement);
+                xDocument.Save(StorageComponentFileName);
             }
         }
     }

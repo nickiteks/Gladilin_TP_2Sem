@@ -89,11 +89,11 @@ namespace FurnitureShopListImplement.Implements
         private OrderViewModel CreateViewModel(Order Order)
         {
             string ForgeProductName = "";
-            for (int j = 0; j < source.Products.Count; ++j)
+            for (int j = 0; j < source.Furnitures.Count; ++j)
             {
-                if (source.Products[j].Id == Order.FurnitureId)
+                if (source.Furnitures[j].Id == Order.FurnitureId)
                 {
-                    ForgeProductName = source.Products[j].FurnitureName;
+                    ForgeProductName = source.Furnitures[j].FurnitureName;
                     break;
                 }
             }

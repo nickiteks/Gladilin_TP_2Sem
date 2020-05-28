@@ -12,44 +12,46 @@ namespace FurnitureShopFileImplement.Implements
     public class OrderLogic : IOrderLogic
     {
         private readonly FileDataListSingleton source;
-
-        public OrderLogic() 
+        public OrderLogic()
         {
-            source = FileDataListSingleton.GetInstance(); 
+            source = FileDataListSingleton.GetInstance();
         }
+
         public void CreateOrUpdate(OrderBindingModel model)
         {
-            Order element;
+            Order order;
             if (model.Id.HasValue)
             {
-                element = source.Orders.FirstOrDefault(rec => rec.Id == model.Id);
-                if (element == null)
-                {
+                order = source.Orders.FirstOrDefault(rec => rec.Id == model.Id);
+                if (order == null)
                     throw new Exception("Элемент не найден");
-                }
+                order.FurnitureId = model.FurnitureId;
+                order.Count = model.Count;
+                order.DateCreate = model.DateCreate;
+                order.DateImplement = model.DateImplement;
+                order.Status = model.Status;
+                order.Sum = model.Sum;
             }
             else
             {
-                int maxId = source.Orders.Count > 0 ? source.Orders.Max(rec =>
-               rec.Id) : 0;
-                element = new Order { Id = maxId + 1 };
-                source.Orders.Add(element);
+                int maxId = source.Orders.Count > 0 ? source.Orders.Max(rec => rec.Id) : 0;
+                order = new Order { Id = maxId + 1 };
+                order.FurnitureId = model.FurnitureId;
+                order.Count = model.Count;
+                order.DateCreate = model.DateCreate;
+                order.DateImplement = model.DateImplement;
+                order.Status = model.Status;
+                order.Sum = model.Sum;
+                source.Orders.Add(order);
             }
-            element.FurnitureId = model.FurnitureId == 0 ? element.FurnitureId : model.FurnitureId;
-            element.Count = model.Count;
-            element.Sum = model.Sum;
-            element.Status = model.Status;
-            element.DateCreate = model.DateCreate;
-            element.DateImplement = model.DateImplement;
         }
 
         public void Delete(OrderBindingModel model)
         {
-            Order element = source.Orders.FirstOrDefault(rec => rec.Id ==
-            model.Id);
-            if (element != null)
+            Order order = source.Orders.FirstOrDefault(rec => rec.Id == model.Id);
+            if (order != null)
             {
-                source.Orders.Remove(element);
+                source.Orders.Remove(order);
             }
             else
             {
@@ -64,21 +66,14 @@ namespace FurnitureShopFileImplement.Implements
             .Select(rec => new OrderViewModel
             {
                 Id = rec.Id,
-                FurnitureName = GetFurnitureName(rec.FurnitureId),
+                FurnitureId = rec.FurnitureId,
+                FurnitureName = source.Furnitures.FirstOrDefault((r) => r.Id == rec.FurnitureId).FurnitureName,
                 Count = rec.Count,
-                Sum = rec.Sum,
-                Status = rec.Status,
                 DateCreate = rec.DateCreate,
-                DateImplement = rec.DateImplement
-            })
-            .ToList();
-        }
-        private string GetFurnitureName(int id)
-        {
-            string name = "";
-            var furniture = source.Furnitures.FirstOrDefault(x => x.Id == id);
-            name = furniture != null ? furniture.FurnitureName : "";
-            return name;
+                DateImplement = rec.DateImplement,
+                Status = rec.Status,
+                Sum = rec.Sum
+            }).ToList();
         }
     }
 }

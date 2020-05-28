@@ -116,7 +116,6 @@ namespace FurnitureShopView
                 {
                     try
                     {
-
                         FurnitureComponents.Remove(Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value));
                     }
                     catch (Exception ex)
