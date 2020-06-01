@@ -15,11 +15,13 @@ namespace FurnitureShopView
         public new IUnityContainer Container { get; set; }
         private readonly IFurnitureLogic logicP;
         private readonly MainLogic logicM;
-        public FormCreateOrder(IFurnitureLogic logicP, MainLogic logicM)                       
-        {                                              
+        private readonly IClientLogic logicC;
+        public FormCreateOrder(IFurnitureLogic logicF, IClientLogic logicC, MainLogic logicM)
+        {
             InitializeComponent();
-            this.logicP = logicP;
+            this.logicP = logicF;
             this.logicM = logicM;
+            this.logicC = logicC;
         }
         private void FormCreateOrder_Load(object sender, EventArgs e)
         {
@@ -33,6 +35,10 @@ namespace FurnitureShopView
                     comboBoxProduct.DataSource = list;
                     comboBoxProduct.SelectedItem = null;
                 }
+                var listC = logicC.Read(null);
+                ComboBoxClient.DisplayMember = "ClientFIO";
+                ComboBoxClient.ValueMember = "Id";
+                ComboBoxClient.DataSource = listC;
             }
             catch (Exception ex)
             {
@@ -91,7 +97,9 @@ namespace FurnitureShopView
                 {
                     FurnitureId = Convert.ToInt32(comboBoxProduct.SelectedValue),
                     Count = Convert.ToInt32(textBoxCount.Text),
-                    Sum = Convert.ToDecimal(textBoxSum.Text)
+                    Sum = Convert.ToDecimal(textBoxSum.Text),
+                    ClientId = Convert.ToInt32(ComboBoxClient.SelectedValue),
+                    ClientFIO = ComboBoxClient.Text
                 });
                 MessageBox.Show("Сохранение прошло успешно", "Сообщение",
                MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -109,6 +117,7 @@ namespace FurnitureShopView
             DialogResult = DialogResult.Cancel;
             Close();
         }
+
     }
 }                                                      
                                                        

@@ -39,6 +39,7 @@ namespace FurnitureShopFileImplement.Implements
             }
             element.FurnitureId = model.FurnitureId == 0 ? element.FurnitureId : model.FurnitureId;
             element.Count = model.Count;
+            element.ClientId = model.ClientId;
             element.Sum = model.Sum;
             element.Status = model.Status;
             element.DateCreate = model.DateCreate;
@@ -62,24 +63,27 @@ namespace FurnitureShopFileImplement.Implements
         public List<OrderViewModel> Read(OrderBindingModel model)
         {
             return source.Orders
-            .Where(rec => model == null || rec.Id == model.Id || (model.DateFrom.HasValue && model.DateTo.HasValue && rec.DateCreate >= model.DateFrom && rec.DateCreate <= model.DateTo))
-            .Select(rec => new OrderViewModel
-            {
-                Id = rec.Id,
-                FurnitureName = GetFurnitureName(rec.FurnitureId),
-                Count = rec.Count,
-                Sum = rec.Sum,
-                Status = rec.Status,
-                DateCreate = rec.DateCreate,
-                DateImplement = rec.DateImplement
-            })
+            .Where(rec => model == null || rec.Id == model.Id || (model.DateFrom.HasValue && model.DateTo.HasValue && rec.DateCreate >= model.DateFrom && rec.DateCreate <= model.DateTo)
+           || model.ClientId.HasValue && rec.ClientId == model.ClientId)
+           .Select(rec => new OrderViewModel
+           {
+               Id = rec.Id,
+               FurnitureName =rec.FurnitureName,
+               ClientId = rec.ClientId,
+               ClientFIO = source.Clients.FirstOrDefault(recC => recC.Id == rec.ClientId)?.ClientFIO,
+               Count = rec.Count,
+               Sum = rec.Sum,
+               Status = rec.Status,
+               DateCreate = rec.DateCreate,
+               DateImplement = rec.DateImplement
+           })
             .ToList();
         }
-        private string GetFurnitureName(int id)
+        private string GetForgeFurnitureName(int id)
         {
             string name = "";
-            var Furniture = source.Furnitures.FirstOrDefault(x => x.Id == id);
-            name = Furniture != null ? Furniture.FurnitureName : "";
+            var ForgeProduct = source.Furnitures.FirstOrDefault(x => x.Id == id);
+            name = ForgeProduct != null ? ForgeProduct.FurnitureName : "";
             return name;
         }
     }
