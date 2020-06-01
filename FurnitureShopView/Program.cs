@@ -1,6 +1,6 @@
 ﻿using FurnitureShopBusinessLogic.BusnessLogics;
 using FurnitureShopBusinessLogic.Interfaces;
-using FurnitureShopDatabaseImplement.Impliments;
+using FurnitureShopDatabaseImplement.Implements;
 using System;
 using System.Windows.Forms;
 using Unity;
