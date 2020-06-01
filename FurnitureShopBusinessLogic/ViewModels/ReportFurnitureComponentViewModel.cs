@@ -6,8 +6,8 @@ namespace FurnitureShopBusinessLogic.ViewModels
 {
     public class ReportFurnitureComponentViewModel
     {
-        public string FurnitureName { get; set; }
-        public string ComponentName { get; set; }
-        public int Count { get; set; }
+        public string FurnitureName { set; get; }
+        public string ComponentName { set; get; }
+        public int ComponentCount { set; get; }
     }
 }

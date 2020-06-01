@@ -1,6 +1,6 @@
 ﻿using FurnitureShopBusinessLogic.BusnessLogics;
 using FurnitureShopBusinessLogic.Interfaces;
-using FurnitureShopDatabaseImplement.Implements;
+using FurnitureShopDataBaseImplement.Implements;
 using System;
 using System.Windows.Forms;
 using Unity;
@@ -32,7 +32,7 @@ namespace FurnitureShopView
             currentContainer.RegisterType<IFurnitureLogic, FurnitureLogic>(new
            HierarchicalLifetimeManager());
             currentContainer.RegisterType<MainLogic>(new HierarchicalLifetimeManager());
-            currentContainer.RegisterType<ReportLogic>(new HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IStorageLogic, StorageLogic>(new HierarchicalLifetimeManager());
             return currentContainer;
     }
    }    

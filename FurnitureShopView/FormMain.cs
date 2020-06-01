@@ -125,20 +125,22 @@ namespace FurnitureShopView
             var form = Container.Resolve<FormFurnitures>();
             form.ShowDialog();
         }
-        private void списиокКомпонентовToolStripMenuItem_Click(object sender, EventArgs e)
+        private void СкладыToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            using (var dialog = new SaveFileDialog { Filter = "docx|*.docx" }) 
-            { if (dialog.ShowDialog() == DialogResult.OK) { report.SaveFurnitureToWordFile(new ReportBindingModel { FileName = dialog.FileName }); MessageBox.Show("Выполнено", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information); } }
+            var form = Container.Resolve<FormStorage>();
+            form.ShowDialog();
         }
 
-        private void компонентыПоИзделиямToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ButtonStorageAdd_Click(object sender, EventArgs e)
         {
-            var form = Container.Resolve<FormReportProductComponents>(); form.ShowDialog();
+            var form = Container.Resolve<FormStorageComonent>();
+            form.ShowDialog();
         }
 
-        private void списокЗаказовToolStripMenuItem_Click(object sender, EventArgs e)
+        private void добавитьНаСкладToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var form = Container.Resolve<FormReportOrders>(); form.ShowDialog();
+            var form = Container.Resolve<FormStorageComonent>();
+            form.ShowDialog();
         }
     }
 }

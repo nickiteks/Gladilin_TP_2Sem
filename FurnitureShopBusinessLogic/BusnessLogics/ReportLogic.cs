@@ -11,93 +11,166 @@ namespace FurnitureShopBusinessLogic.BusnessLogics
 {
     public class ReportLogic
     {
+        private readonly IComponentLogic componentLogic;
         private readonly IFurnitureLogic furnitureLogic;
         private readonly IOrderLogic orderLogic;
-        public ReportLogic(IFurnitureLogic Logic, IOrderLogic orderLLogic)
+        private readonly IStorageLogic storageLogic;
+
+        public ReportLogic(IFurnitureLogic productLogic, IComponentLogic componentLogic,
+            IOrderLogic orderLLogic, IStorageLogic storageLogic)
         {
-            this.furnitureLogic = Logic;
+            this.furnitureLogic = productLogic;
+            this.componentLogic = componentLogic;
             this.orderLogic = orderLLogic;
+            this.storageLogic = storageLogic;
         }
-        /// <summary>
-        /// Получение списка компонент с указанием, в каких изделиях используются
-        /// </summary>
-        /// <returns></returns>
-        public List<ReportFurnitureComponentViewModel> GetFurnitureComponent()
+
+        public List<ReportFurnitureComponentViewModel> GetFurnitureComponents()
         {
-            var furnitures = furnitureLogic.Read(null);
+            var components = componentLogic.Read(null);
+            var furniture = furnitureLogic.Read(null);
             var list = new List<ReportFurnitureComponentViewModel>();
-            foreach (var furnidure in furnitures)
+            foreach (var component in components)
             {
-                foreach (var fb in furnidure.FurnitureComponents)
+                foreach (var furnitures in furniture)
                 {
-                    var record = new ReportFurnitureComponentViewModel
+                    if (furnitures.FurnitureComponents.ContainsKey(component.Id))
                     {
-                        FurnitureName = furnidure.FurnitureName,
-                        ComponentName = fb.Value.Item1,
-                        Count = fb.Value.Item2
-                    };
-                    list.Add(record);
+                        var record = new ReportFurnitureComponentViewModel
+                        {
+                            FurnitureName = furnitures.FurnitureName,
+                            ComponentName = component.ComponentName,
+                            ComponentCount = furnitures.FurnitureComponents[component.Id].Item2
+                        };
+                        list.Add(record);
+                    }
                 }
             }
             return list;
         }
-        /// <summary>
-        /// Получение списка заказов за определенный период
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        public List<IGrouping<DateTime, OrderViewModel>> GetOrders(ReportBindingModel model)
+        // Получение списка заказов за определенный период
+        public List<IGrouping<DateTime, ReportOrdersViewModel>> GetOrders(ReportBindingModel model)
         {
-            var list = orderLogic
-           .Read(new OrderBindingModel
-           {
-               DateFrom = model.DateFrom,
-               DateTo = model.DateTo
-           })
-            .GroupBy(rec => rec.DateCreate.Date)
-            .OrderBy(recG => recG.Key)
-            .ToList();
-            return list;
+            return orderLogic.Read(new OrderBindingModel
+            {
+                DateFrom = model.DateFrom,
+                DateTo = model.DateTo
+            })
+            .Select(x => new ReportOrdersViewModel
+            {
+                DateCreate = x.DateCreate,
+                FurnitureName = x.FurnitureName,
+                Count = x.Count,
+                Sum = x.Sum,
+                Status = x.Status
+            })
+           .GroupBy(x => x.DateCreate)
+           .ToList();
         }
-        /// <summary>
-        /// Сохранение изделий в файл-Word
-        /// </summary>
-        /// <param name="model"></param>
-        public void SaveFurnitureToWordFile(ReportBindingModel model)
+
+        public List<ReportOrdersViewModel> GetOrders()
+        {
+            return orderLogic.Read(null)
+            .Select(x => new ReportOrdersViewModel
+            {
+                DateCreate = x.DateCreate,
+                FurnitureName = x.FurnitureName,
+                Count = x.Count,
+                Sum = x.Sum,
+                Status = x.Status
+            })
+           .ToList();
+        }
+
+        public List<ReportStorageViewModel> GetStorages()
+        {
+            return storageLogic.Read(null).Select(s => new ReportStorageViewModel()
+            {
+                StorageName = s.StorageName,
+                Components = s.StoragedComponents
+            }).ToList();
+        }
+
+        public List<ReportStorageComponent> GetComponentsStorages()
+        {
+            var storages = storageLogic.Read(null);
+            List<ReportStorageComponent> reportComponentStorages = new List<ReportStorageComponent>();
+            foreach (var storage in storages)
+            {
+                foreach (var component in storage.StoragedComponents)
+                {
+                    reportComponentStorages.Add(new ReportStorageComponent()
+                    {
+                        StorageName = storage.StorageName,
+                        ComponentName = component.Key,
+                        ComponentCount = component.Value
+                    });
+                }
+            }
+            return reportComponentStorages;
+        }
+
+        // Сохранение компонент в файл-Word
+        public void SaveFurnitureesToWordFile(ReportBindingModel model)
         {
             SaveToWord.CreateDoc(new WordInfo
             {
                 FileName = model.FileName,
-                Title = "The list of Furnitures",
-                Furnitures = furnitureLogic.Read(null)
+                Title = "Мебель",
+                furnitures = furnitureLogic.Read(null)
             });
         }
-        /// <summary>
-        /// Сохранение изделий в файл-Excel
-        /// </summary>
-        /// <param name="model"></param>
-        public void SaveFurnitureComponentsToExcelFile(ReportBindingModel model)
+
+        public void SaveStoragesToWordFile(ReportBindingModel model)
+        {
+            SaveToWord.CreateDoc(new WordInfoStorages
+            {
+                FileName = model.FileName,
+                Title = "Хранилища",
+                Storages = storageLogic.Read(null)
+            });
+        }
+
+        // Сохранение компонент с указаеним продуктов в файл-Excel
+        public void SaveProductComponentToExcelFile(ReportBindingModel model)
         {
             SaveToExcel.CreateDoc(new ExcelInfo
             {
                 FileName = model.FileName,
-                Title = "The list of orders",
-                Orders = GetOrders(model)
+                Title = "Заказы",
+                Orders = GetOrders()
             });
         }
 
-        /// <summary>
-        /// Сохранение заказов в файл-Pdf
-        /// </summary>
-        /// <param name="model"></param>
+        public void SaveStoragesToExcelFile(ReportBindingModel model)
+        {
+            SaveToExcel.CreateDoc(new ExcelInfoStorages
+            {
+                FileName = model.FileName,
+                Title = "Склады",
+                Storages = GetStorages()
+            });
+        }
+
         [Obsolete]
-        public void SaveFurnituresToPdfFile(ReportBindingModel model)
+        public void SaveFurnituresComponentsToPdfFile(ReportBindingModel model)
         {
             SaveToPdf.CreateDoc(new PdfInfo
             {
                 FileName = model.FileName,
-                Title = "The list furniture with components",
-                Furnitures = GetFurnitureComponent()
+                Title = "Мебель",
+                furnitures = GetFurnitureComponents()
+            });
+        }
+
+        [Obsolete]
+        public void SaveComponentsStoragesToPdfFile(ReportBindingModel model)
+        {
+            SaveToPdf.CreateDoc(new PdfInfoComponentStorages
+            {
+                FileName = model.FileName,
+                Title = "Компоненты на складах",
+                ComponentStorages = GetComponentsStorages()
             });
         }
     }

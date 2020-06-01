@@ -1,6 +1,8 @@
-﻿using MigraDoc.DocumentObjectModel;
-using MigraDoc.DocumentObjectModel.Tables;
+﻿using System;
 using System.Collections.Generic;
+using System.Text;
+using MigraDoc.DocumentObjectModel;
+using MigraDoc.DocumentObjectModel.Tables;
 
 namespace FurnitureShopBusinessLogic.HelperModels
 {

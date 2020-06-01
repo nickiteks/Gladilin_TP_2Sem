@@ -1,14 +1,14 @@
-﻿using FurnitureShopBusinessLogic.ViewModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using FurnitureShopBusinessLogic.ViewModels;
 
 namespace FurnitureShopBusinessLogic.HelperModels
 {
-    class PdfInfo
+    public class PdfInfo
     {
         public string FileName { get; set; }
         public string Title { get; set; }
-        public List<ReportFurnitureComponentViewModel> Furnitures { get; set; }
+        public List<ReportFurnitureComponentViewModel> furnitures { get; set; }
     }
 }

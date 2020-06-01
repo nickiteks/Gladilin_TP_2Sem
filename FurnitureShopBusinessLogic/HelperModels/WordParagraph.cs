@@ -6,7 +6,7 @@ namespace FurnitureShopBusinessLogic.HelperModels
 {
     class WordParagraph
     {
-        public List<string> Texts { get; set; }
-        public WordParagraphProperties TextProperties { get; set; }
+        public List<string> Texts { get; internal set; }
+        public WordParagraphProperties TextProperties { get; internal set; }
     }
 }

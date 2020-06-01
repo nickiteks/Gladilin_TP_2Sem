@@ -33,8 +33,7 @@ namespace FurnitureShopFileImplement.Implements
             }
             else
             {
-                int maxId = source.Components.Count > 0 ? source.Components.Max(rec =>
-               rec.Id) : 0;
+                int maxId = source.Components.Count > 0 ? source.Components.Max(rec => rec.Id) : 0;
                 element = new Component { Id = maxId + 1 };
                 source.Components.Add(element);
             }
@@ -49,7 +48,7 @@ namespace FurnitureShopFileImplement.Implements
             }
             else
             {
-            throw new Exception("Элемент не найден");
+                throw new Exception("Элемент не найден");
             }
         }
         public List<ComponentViewModel> Read(ComponentBindingModel model)
