@@ -28,6 +28,7 @@ namespace FurnitureShopDataBaseImpliment.Impliments
                     order = new Order();
                     context.Orders.Add(order);
                 }
+                order.ClientId = model.ClientId;
                 order.FurnitureId = model.FurnitureId;
                 order.Count = model.Count;
                 order.DateCreate = model.DateCreate;
@@ -59,19 +60,27 @@ namespace FurnitureShopDataBaseImpliment.Impliments
         {
             using (var context = new FurnitureShopDataBase())
             {
-                return context.Orders.Where(rec => model == null || rec.Id == model.Id)
-                .Include(ord => ord.Furniture)
-                .Select(rec => new OrderViewModel()
+                return context.Orders
+                .Where(rec => model == null ||
+                (model.Id != null && rec.Id == model.Id) ||
+                (model.ClientId == rec.ClientId) ||
+                (model.DateFrom != null && model.DateTo != null && rec.DateCreate >= model.DateFrom && rec.DateCreate <= model.DateTo))
+                .Include(rec => rec.Furniture)
+                .Include(rec => rec.Client)
+                .Select(rec => new OrderViewModel
                 {
                     Id = rec.Id,
                     FurnitureId = rec.FurnitureId,
+                    ClientId = rec.ClientId,
+                    ClientFIO = rec.Client.Fio,
                     FurnitureName = rec.Furniture.FurnitureName,
                     Count = rec.Count,
                     DateCreate = rec.DateCreate,
                     DateImplement = rec.DateImplement,
                     Status = rec.Status,
                     Sum = rec.Sum
-                }).ToList();
+                })
+                .ToList();
             }
         }
     }

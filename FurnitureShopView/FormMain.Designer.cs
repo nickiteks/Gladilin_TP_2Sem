@@ -39,6 +39,13 @@
             this.списокИзделийToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.складыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.добавитьНаСкладToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.отчетыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.мебельToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.заказыПоМебелиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.компонентыПоМебелиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.компонентыПоМебелиToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.компонентыНаСкладахToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.складыToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.dataGridView = new System.Windows.Forms.DataGridView();
             this.buttonStorageAdd = new System.Windows.Forms.Button();
             this.menuStrip.SuspendLayout();
@@ -99,7 +106,8 @@
             // 
             this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.справочникиToolStripMenuItem,
-            this.добавитьНаСкладToolStripMenuItem});
+            this.добавитьНаСкладToolStripMenuItem,
+            this.отчетыToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
             this.menuStrip.Size = new System.Drawing.Size(1004, 24);
@@ -143,6 +151,61 @@
             this.добавитьНаСкладToolStripMenuItem.Size = new System.Drawing.Size(121, 20);
             this.добавитьНаСкладToolStripMenuItem.Text = "Добавить на склад";
             this.добавитьНаСкладToolStripMenuItem.Click += new System.EventHandler(this.добавитьНаСкладToolStripMenuItem_Click);
+            // 
+            // отчетыToolStripMenuItem
+            // 
+            this.отчетыToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.мебельToolStripMenuItem,
+            this.заказыПоМебелиToolStripMenuItem,
+            this.компонентыПоМебелиToolStripMenuItem,
+            this.компонентыПоМебелиToolStripMenuItem1,
+            this.компонентыНаСкладахToolStripMenuItem,
+            this.складыToolStripMenuItem1});
+            this.отчетыToolStripMenuItem.Name = "отчетыToolStripMenuItem";
+            this.отчетыToolStripMenuItem.Size = new System.Drawing.Size(60, 20);
+            this.отчетыToolStripMenuItem.Text = "Отчеты";
+            // 
+            // мебельToolStripMenuItem
+            // 
+            this.мебельToolStripMenuItem.Name = "мебельToolStripMenuItem";
+            this.мебельToolStripMenuItem.Size = new System.Drawing.Size(211, 22);
+            this.мебельToolStripMenuItem.Text = "Мебель";
+            this.мебельToolStripMenuItem.Click += new System.EventHandler(this.мебельToolStripMenuItem_Click);
+            // 
+            // заказыПоМебелиToolStripMenuItem
+            // 
+            this.заказыПоМебелиToolStripMenuItem.Name = "заказыПоМебелиToolStripMenuItem";
+            this.заказыПоМебелиToolStripMenuItem.Size = new System.Drawing.Size(211, 22);
+            this.заказыПоМебелиToolStripMenuItem.Text = "Заказы по мебели";
+            this.заказыПоМебелиToolStripMenuItem.Click += new System.EventHandler(this.заказыПоМебелиToolStripMenuItem_Click);
+            // 
+            // компонентыПоМебелиToolStripMenuItem
+            // 
+            this.компонентыПоМебелиToolStripMenuItem.Name = "компонентыПоМебелиToolStripMenuItem";
+            this.компонентыПоМебелиToolStripMenuItem.Size = new System.Drawing.Size(211, 22);
+            this.компонентыПоМебелиToolStripMenuItem.Text = "Компоненты по мебели";
+            this.компонентыПоМебелиToolStripMenuItem.Click += new System.EventHandler(this.компонентыПоМебелиToolStripMenuItem_Click);
+            // 
+            // компонентыПоМебелиToolStripMenuItem1
+            // 
+            this.компонентыПоМебелиToolStripMenuItem1.Name = "компонентыПоМебелиToolStripMenuItem1";
+            this.компонентыПоМебелиToolStripMenuItem1.Size = new System.Drawing.Size(211, 22);
+            this.компонентыПоМебелиToolStripMenuItem1.Text = "Компоненты по складам";
+            this.компонентыПоМебелиToolStripMenuItem1.Click += new System.EventHandler(this.компонентыПоСкладамToolStripMenuItem_Click);
+            // 
+            // компонентыНаСкладахToolStripMenuItem
+            // 
+            this.компонентыНаСкладахToolStripMenuItem.Name = "компонентыНаСкладахToolStripMenuItem";
+            this.компонентыНаСкладахToolStripMenuItem.Size = new System.Drawing.Size(211, 22);
+            this.компонентыНаСкладахToolStripMenuItem.Text = "Компоненты на складах";
+            this.компонентыНаСкладахToolStripMenuItem.Click += new System.EventHandler(this.компонентыНаСкладахToolStripMenuItem_Click);
+            // 
+            // складыToolStripMenuItem1
+            // 
+            this.складыToolStripMenuItem1.Name = "складыToolStripMenuItem1";
+            this.складыToolStripMenuItem1.Size = new System.Drawing.Size(211, 22);
+            this.складыToolStripMenuItem1.Text = "Склады";
+            this.складыToolStripMenuItem1.Click += new System.EventHandler(this.складыToolStripMenuItem1_Click);
             // 
             // dataGridView
             // 
@@ -202,5 +265,12 @@
         private System.Windows.Forms.Button buttonStorageAdd;
         private System.Windows.Forms.ToolStripMenuItem складыToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem добавитьНаСкладToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem отчетыToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem мебельToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem заказыПоМебелиToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem компонентыПоМебелиToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem компонентыПоМебелиToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem компонентыНаСкладахToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem складыToolStripMenuItem1;
     }
 }

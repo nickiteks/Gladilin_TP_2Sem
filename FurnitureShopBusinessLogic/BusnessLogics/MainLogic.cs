@@ -12,15 +12,18 @@ namespace FurnitureShopBusinessLogic.BusnessLogics
     {
         private readonly IOrderLogic orderLogic;
         private readonly IStorageLogic storageLogic;
-        public MainLogic(IOrderLogic orderLogic , IStorageLogic storageLogic)
+
+        public MainLogic(IOrderLogic orderLogic, IStorageLogic storageLogic)
         {
             this.orderLogic = orderLogic;
             this.storageLogic = storageLogic;
         }
+
         public void CreateOrder(CreateOrderBindingModel model)
         {
             orderLogic.CreateOrUpdate(new OrderBindingModel
             {
+                ClientId = model.ClientId,
                 FurnitureId = model.FurnitureId,
                 Count = model.Count,
                 Sum = model.Sum,
@@ -28,17 +31,19 @@ namespace FurnitureShopBusinessLogic.BusnessLogics
                 Status = OrderStatus.Принят
             });
         }
+
         public void TakeOrderInWork(ChangeStatusBindingModel model)
         {
-            var order = orderLogic.Read(new OrderBindingModel
-            {
-                Id = model.OrderId
-            })?[0];
+            var order = orderLogic.Read(new OrderBindingModel { Id = model.OrderId })?[0];
             if (order == null)
             {
                 throw new Exception("Не найден заказ");
             }
-            if (storageLogic.RemoveComponents(order))
+            if (order.Status != OrderStatus.Принят)
+            {
+                throw new Exception("Заказ не в статусе \"Принят\"");
+            }
+            if (storageLogic.RemoveMaterials(order))
             {
                 if (order.Status != OrderStatus.Принят)
                 {
@@ -47,6 +52,7 @@ namespace FurnitureShopBusinessLogic.BusnessLogics
                 orderLogic.CreateOrUpdate(new OrderBindingModel
                 {
                     Id = order.Id,
+                    ClientId = order.ClientId,                   
                     FurnitureId = order.FurnitureId,
                     Count = order.Count,
                     Sum = order.Sum,
@@ -55,15 +61,11 @@ namespace FurnitureShopBusinessLogic.BusnessLogics
                     Status = OrderStatus.Выполняется
                 });
             }
-            else
-                throw new Exception("Не хватает компонентов на складах!");
         }
+
         public void FinishOrder(ChangeStatusBindingModel model)
         {
-            var order = orderLogic.Read(new OrderBindingModel
-            {
-                Id = model.OrderId
-            })?[0];
+            var order = orderLogic.Read(new OrderBindingModel { Id = model.OrderId })?[0];
             if (order == null)
             {
                 throw new Exception("Не найден заказ");
@@ -76,6 +78,7 @@ namespace FurnitureShopBusinessLogic.BusnessLogics
             {
                 Id = order.Id,
                 FurnitureId = order.FurnitureId,
+                ClientId = order.ClientId,
                 Count = order.Count,
                 Sum = order.Sum,
                 DateCreate = order.DateCreate,
@@ -83,12 +86,10 @@ namespace FurnitureShopBusinessLogic.BusnessLogics
                 Status = OrderStatus.Готов
             });
         }
+
         public void PayOrder(ChangeStatusBindingModel model)
         {
-            var order = orderLogic.Read(new OrderBindingModel
-            {
-                Id = model.OrderId
-            })?[0];
+            var order = orderLogic.Read(new OrderBindingModel { Id = model.OrderId })?[0];
             if (order == null)
             {
                 throw new Exception("Не найден заказ");
@@ -101,6 +102,7 @@ namespace FurnitureShopBusinessLogic.BusnessLogics
             {
                 Id = order.Id,
                 FurnitureId = order.FurnitureId,
+                ClientId = order.ClientId,
                 Count = order.Count,
                 Sum = order.Sum,
                 DateCreate = order.DateCreate,
@@ -108,9 +110,10 @@ namespace FurnitureShopBusinessLogic.BusnessLogics
                 Status = OrderStatus.Оплачен
             });
         }
-        public void AddComponents(StorageAddComponentsBindingModel model)
+
+        public void AddComponents(StorageAddComponentBindingModel model)
         {
-            storageLogic.AddComponentToStorage(model);
+            storageLogic.AddMaterialToStorage(model);
         }
     }
 }

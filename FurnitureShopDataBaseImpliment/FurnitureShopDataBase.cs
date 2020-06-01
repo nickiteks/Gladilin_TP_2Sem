@@ -24,6 +24,6 @@ namespace FurnitureShopDataBaseImpliment
         public virtual DbSet<Order> Orders { set; get; }
         public virtual DbSet<Storage> Storages { set; get; }
         public virtual DbSet<StorageComponent> StorageComponents { set; get; }
-
+        public virtual DbSet<Client> Clients { get; set; }
     }
 }

@@ -59,20 +59,23 @@ namespace FurnitureShopView
         }
         private void LoadData()
         {
-            try
+            if (id.HasValue)
             {
-                if (StorageCmponents != null)
+                try
                 {
-                    dataGridViewComponents.Rows.Clear();
-                    foreach (var pc in StorageCmponents)
+                    if (StorageCmponents != null)
                     {
-                        dataGridViewComponents.Rows.Add(new object[] {"", pc.Key, pc.Value});
+                        dataGridViewComponents.Rows.Clear();
+                        foreach (var pc in StorageCmponents)
+                        {
+                            dataGridViewComponents.Rows.Add(new object[] { pc.Key, pc.Key, pc.Value});
+                        }
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
 
@@ -88,7 +91,7 @@ namespace FurnitureShopView
                 logic.CreateOrUpdate(new StorageBindingModel
                 {
                     Id = id ?? null,
-                    StorageName = textBoxNameStorage.Text,
+                    StorageName = textBoxNameStorage.Text
                 });
                 MessageBox.Show("Сохранение прошло успешно", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 DialogResult = DialogResult.OK;

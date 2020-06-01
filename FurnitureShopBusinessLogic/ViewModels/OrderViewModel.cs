@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Runtime.Serialization;
 using System.Text;
 
 namespace FurnitureShopBusinessLogic.ViewModels
@@ -10,8 +11,13 @@ namespace FurnitureShopBusinessLogic.ViewModels
     {
         public int Id { get; set; }
         public int FurnitureId { get; set; }
+        [DataMember]
+        public int ClientId { get; set; }
         [DisplayName("Изделие")]
         public string FurnitureName { get; set; }
+        [DataMember]
+        [DisplayName("Клиент")]
+        public string ClientFIO { get; set; }
         [DisplayName("Количество")]
         public int Count { get; set; }
         [DisplayName("Сумма")]

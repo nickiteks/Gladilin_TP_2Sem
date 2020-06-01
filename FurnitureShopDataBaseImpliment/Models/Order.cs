@@ -10,6 +10,7 @@ namespace FurnitureShopDataBaseImpliment.Models
     {
         public int Id { get; set; }
         public int FurnitureId { get; set; }
+        public int ClientId { get; set; }
         [Required]
         public int Count { get; set; }
         [Required]
@@ -19,5 +20,6 @@ namespace FurnitureShopDataBaseImpliment.Models
         public DateTime DateCreate { get; set; }
         public DateTime? DateImplement { get; set; }
         public virtual Furniture Furniture { get; set; }
+        public virtual Client Client { get; set; }
     }
 }
