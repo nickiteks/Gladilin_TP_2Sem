@@ -4,8 +4,6 @@ using System.Text;
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
-
-
 namespace FurnitureShopBusinessLogic.HelperModels
 {
     class ExcelCellParameters

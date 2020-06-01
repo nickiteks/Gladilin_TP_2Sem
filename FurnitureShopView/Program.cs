@@ -9,7 +9,7 @@ using Unity.Lifetime;
 
 namespace FurnitureShopView
 {
-   static class Program
+    static class Program
    {
     /// <summary>
     /// Главная точка входа для приложения.

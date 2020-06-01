@@ -48,7 +48,6 @@ namespace FurnitureShopBusinessLogic.BusnessLogics
             }
             return list;
         }
-
         // Получение списка заказов за определенный период
         public List<IGrouping<DateTime, ReportOrdersViewModel>> GetOrders(ReportBindingModel model)
         {

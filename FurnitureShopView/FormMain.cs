@@ -17,11 +17,13 @@ namespace FurnitureShopView
         public new IUnityContainer Container { get; set; }
         private readonly MainLogic logic;
         private readonly IOrderLogic orderLogic;
-        public FormMain(MainLogic logic, IOrderLogic orderLogic)
+        private readonly ReportLogic report;
+        public FormMain(MainLogic logic, IOrderLogic orderLogic , ReportLogic report)
         {
             InitializeComponent();
             this.logic = logic;
             this.orderLogic = orderLogic;
+            this.report = report;
         }
         private void FormMain_Load(object sender, EventArgs e)
         {
@@ -123,7 +125,6 @@ namespace FurnitureShopView
             var form = Container.Resolve<FormFurnitures>();
             form.ShowDialog();
         }
-
         private void СкладыToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var form = Container.Resolve<FormStorage>();

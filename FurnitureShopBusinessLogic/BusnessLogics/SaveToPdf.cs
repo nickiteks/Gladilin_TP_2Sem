@@ -102,7 +102,6 @@ namespace FurnitureShopBusinessLogic.BusnessLogics
             renderer.RenderDocument();
             renderer.PdfDocument.Save(info.FileName);
         }
-
         // Создание стилей для документа
         private static void DefineStyles(Document document)
         {

@@ -160,8 +160,6 @@ namespace FurnitureShopBusinessLogic.BusnessLogics
             }
             return null;
         }
-
-        /// Задание форматирования для абзаца
         private static ParagraphProperties CreateParagraphProperties(WordParagraphProperties paragraphProperties)
         {
             if (paragraphProperties != null)

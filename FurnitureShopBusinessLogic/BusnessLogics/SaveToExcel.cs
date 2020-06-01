@@ -1,3 +1,4 @@
+
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
@@ -284,7 +285,6 @@ namespace FurnitureShopBusinessLogic.BusnessLogics
                 workbookpart.Workbook.Save();
             }
         }
-
         // Настройка стилей для файла
         private static void CreateStyles(WorkbookPart workbookpart)
         {
@@ -422,7 +422,6 @@ namespace FurnitureShopBusinessLogic.BusnessLogics
             {
                 Count = (UInt32Value)0U
             };
-
             TableStyles tableStyles = new TableStyles()
             {
                 Count = (UInt32Value)0U,
@@ -460,7 +459,6 @@ namespace FurnitureShopBusinessLogic.BusnessLogics
             sp.Stylesheet.Append(tableStyles);
             sp.Stylesheet.Append(stylesheetExtensionList);
         }
-
         // Добааляем новую ячейку в лист
         private static void InsertCellInWorksheet(ExcelCellParameters cellParameters)
         {
