@@ -9,6 +9,9 @@ namespace FurnitureShopDatabaseImplement.Models
     public class Order
     {
         public int Id { get; set; }
+        public int? ClientId { get; set; }
+        [Required]
+        public string ClientFIO { get; set; }
         public int FurnitureId { get; set; }
         [Required]
         public int Count { get; set; }

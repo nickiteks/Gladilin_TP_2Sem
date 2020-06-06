@@ -19,7 +19,9 @@ namespace FurnitureShopBusinessLogic.BusnessLogics
             orderLogic.CreateOrUpdate(new OrderBindingModel
             {
                 FurnitureId = model.FurnitureId,
+                ClientId = model.ClientId,
                 Count = model.Count,
+                ClientFIO = model.ClientFIO,
                 Sum = model.Sum,
                 DateCreate = DateTime.Now,
                 Status = OrderStatus.Принят
@@ -42,8 +44,10 @@ namespace FurnitureShopBusinessLogic.BusnessLogics
             orderLogic.CreateOrUpdate(new OrderBindingModel
             {
                 Id = order.Id,
+                ClientId = order.ClientId,
                 FurnitureId = order.FurnitureId,
                 Count = order.Count,
+                ClientFIO =order.ClientFIO,
                 Sum = order.Sum,
                 DateCreate = order.DateCreate,
                 DateImplement = DateTime.Now,
@@ -68,6 +72,8 @@ namespace FurnitureShopBusinessLogic.BusnessLogics
             {
                 Id = order.Id,
                 FurnitureId = order.FurnitureId,
+                ClientId = order.ClientId,
+                ClientFIO = order.ClientFIO,
                 Count = order.Count,
                 Sum = order.Sum,
                 DateCreate = order.DateCreate,
@@ -93,6 +99,8 @@ namespace FurnitureShopBusinessLogic.BusnessLogics
             {
                 Id = order.Id,
                 FurnitureId = order.FurnitureId,
+                ClientId =order.ClientId,
+                ClientFIO = order.ClientFIO,
                 Count = order.Count,
                 Sum = order.Sum,
                 DateCreate = order.DateCreate,

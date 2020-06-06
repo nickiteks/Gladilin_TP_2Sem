@@ -9,14 +9,16 @@ namespace FurnitureShopListImplement.Models
         private static DataListSingleton instance;
         public List<Component> Components { get; set; }
         public List<Order> Orders { get; set; }
-        public List<Furniture> Products { get; set; }
-        public List<FurnitureComponent> ProductComponents { get; set; }
+        public List<Furniture> Furnitures { get; set; }
+        public List<FurnitureComponent> FurnitureComponents { get; set; }
+        public List<Client> clients { get; set; }
         private DataListSingleton()
         {
             Components = new List<Component>();
             Orders = new List<Order>();
-            Products = new List<Furniture>();
-            ProductComponents = new List<FurnitureComponent>();
+            Furnitures = new List<Furniture>();
+            FurnitureComponents = new List<FurnitureComponent>();
+            clients = new List<Client>();
         }
         public static DataListSingleton GetInstance()
         {
