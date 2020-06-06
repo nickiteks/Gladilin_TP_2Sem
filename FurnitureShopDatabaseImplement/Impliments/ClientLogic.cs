@@ -15,7 +15,11 @@ namespace FurnitureShopDatabaseImplement.Impliments
         {
             using (var context = new FurnitureShopDatabase())
             {
-                Client client;
+                Client client = context.Clients.FirstOrDefault(rec => rec.ClientFIO == model.ClientFIO && rec.Id != model.Id);
+                if (client != null)
+                {
+                    throw new Exception("Уже есть клиент с таким логином");
+                }
                 if (model.Id.HasValue)
                 {
                     client = context.Clients.FirstOrDefault(rec => rec.Id == model.Id);
