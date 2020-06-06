@@ -113,7 +113,7 @@ namespace FurnitureShopBusinessLogic.BusnessLogics
 
         public void AddComponents(StorageAddComponentBindingModel model)
         {
-            storageLogic.AddMaterialToStorage(model);
+            storageLogic.AddComponentToStorage(model);
         }
     }
 }
