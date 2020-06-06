@@ -18,7 +18,7 @@ namespace FurnitureShopDatabaseImplement.Impliments
                 Client client = context.Clients.FirstOrDefault(rec => rec.ClientFIO == model.ClientFIO && rec.Id != model.Id);
                 if (client != null)
                 {
-                    throw new Exception("Уже есть клиент с таким логином");
+                    throw new Exception("Уже есть клиент с таким ФИО");
                 }
                 if (model.Id.HasValue)
                 {
