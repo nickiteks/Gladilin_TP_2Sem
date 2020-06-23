@@ -20,7 +20,12 @@ namespace ForgeShopFileImplement.Implements
 
         public void CreateOrUpdate(ImplementerBindingModel model)
         {
-            Implementer element = source.Implementers.FirstOrDefault(rec => rec.Id == model.Id);
+            Implementer element = source.Implementers.FirstOrDefault(rec =>
+                    rec.ImplementerFIO == model.ImplementerFIO && rec.Id != model.Id);
+            if (element != null)
+            {
+                throw new Exception("Такой исполнитель уже существует");
+            }
             if (element == null)
             {
                 int maxId = source.Implementers.Count > 0 ? source.Implementers.Max(rec => rec.Id) : 0;
