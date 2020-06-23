@@ -26,6 +26,5 @@ namespace FurnitureShopDatabaseImplement.Models
         public int? ImplementerId { set; get; }
         public virtual Client Client { set; get; }
         public virtual Implementer Implementer { set; get; }
-
     }
 }
