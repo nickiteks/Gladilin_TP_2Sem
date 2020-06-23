@@ -83,7 +83,7 @@
             this.Controls.Add(this.buttonAddImplementer);
             this.Controls.Add(this.dataGridViewImplementers);
             this.Name = "FormImplementers";
-            this.Text = "FormImplementers";
+            this.Text = "Работники";
             this.Load += new System.EventHandler(this.FormImplementers_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewImplementers)).EndInit();
             this.ResumeLayout(false);
