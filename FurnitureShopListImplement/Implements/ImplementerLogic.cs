@@ -23,15 +23,17 @@ namespace ForgeShopListImplement.Implements
             bool isImplementerExist = false;
             foreach (var implementer in source.Implementers)
             {
-                if (implementer.Id >= tempImplementer.Id)
+               if (implementer.ImplementerFIO == model.ImplementerFIO && implementer.Id != model.Id)
+                {
+                    throw new Exception("Такой исполнитель уже существует");
+                }
+                if (!model.Id.HasValue && implementer.Id >= tempImplementer.Id)
                 {
                     tempImplementer.Id = implementer.Id + 1;
                 }
-                else if (implementer.Id == model.Id)
+                else if (model.Id.HasValue && implementer.Id == model.Id)
                 {
                     tempImplementer = implementer;
-                    isImplementerExist = true;
-                    break;
                 }
             }
             if (isImplementerExist)
