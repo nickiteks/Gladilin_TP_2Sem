@@ -120,7 +120,7 @@
             this.Controls.Add(this.textBoxImplementerFIO);
             this.Controls.Add(this.labelImplementerFIO);
             this.Name = "FormImplementer";
-            this.Text = "FormImplementer";
+            this.Text = "Добавить работника";
             this.Load += new System.EventHandler(this.FormImplementer_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
