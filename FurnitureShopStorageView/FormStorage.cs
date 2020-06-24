@@ -23,7 +23,7 @@ namespace FurnitureShopStorageView
             InitializeComponent();
         }
 
-        private void FormCar_Load(object sender, EventArgs e)
+        private void FormStorage_Load(object sender, EventArgs e)
         {
             dataGridView.Columns.Add("Id", "Id");
             dataGridView.Columns.Add("Компонент", "Компонент");
