@@ -11,6 +11,7 @@ namespace FurnitureShopBusinessLogic.BusnessLogics
     public class MainLogic
     {
         private readonly IOrderLogic orderLogic;
+        private readonly object locker = new object();
         private readonly IStorageLogic storageLogic;
 
         public MainLogic(IOrderLogic orderLogic, IStorageLogic storageLogic)
@@ -34,32 +35,52 @@ namespace FurnitureShopBusinessLogic.BusnessLogics
 
         public void TakeOrderInWork(ChangeStatusBindingModel model)
         {
-            var order = orderLogic.Read(new OrderBindingModel { Id = model.OrderId })?[0];
-            if (order == null)
+            lock (locker)
             {
-                throw new Exception("Не найден заказ");
-            }
-            if (order.Status != OrderStatus.Принят)
-            {
-                throw new Exception("Заказ не в статусе \"Принят\"");
-            }
-            if (storageLogic.RemoveMaterials(order))
-            {
-                if (order.Status != OrderStatus.Принят)
+                var order = orderLogic.Read(new OrderBindingModel { Id = model.OrderId })?[0];
+                if (order == null)
+                {
+                    throw new Exception("Не найден заказ");
+                }
+                if (order.Status != OrderStatus.Принят && order.Status!=OrderStatus.Треубются_материалы)
                 {
                     throw new Exception("Заказ не в статусе \"Принят\"");
                 }
-                orderLogic.CreateOrUpdate(new OrderBindingModel
+                try 
                 {
-                    Id = order.Id,
-                    ClientId = order.ClientId,                   
-                    FurnitureId = order.FurnitureId,
-                    Count = order.Count,
-                    Sum = order.Sum,
-                    DateCreate = order.DateCreate,
-                    DateImplement = DateTime.Now,
-                    Status = OrderStatus.Выполняется
-                });
+                    storageLogic.RemoveMaterials(order);
+                    orderLogic.CreateOrUpdate(new OrderBindingModel
+                    {
+                        Id = order.Id,
+                        ClientId = order.ClientId,
+                        FurnitureId = order.FurnitureId,
+                        Count = order.Count,
+                        Sum = order.Sum,
+                        ClientFIO = order.ClientFIO,
+                        ImplementerId = model.ImplementerId.Value,
+                        ImplementerFIO = model.ImplementerFIO,
+                        DateCreate = order.DateCreate,
+                        DateImplement = DateTime.Now,
+                        Status = OrderStatus.Выполняется
+                    });
+                }
+                catch
+                {
+                    orderLogic.CreateOrUpdate(new OrderBindingModel
+                    {
+                        Id = order.Id,
+                        ClientId = order.ClientId,
+                        FurnitureId = order.FurnitureId,
+                        Count = order.Count,
+                        Sum = order.Sum,
+                        ClientFIO = order.ClientFIO,
+                        ImplementerId = null,
+                        ImplementerFIO = null,
+                        DateCreate = order.DateCreate,
+                        DateImplement = DateTime.Now,
+                        Status = OrderStatus.Треубются_материалы
+                    });
+                }
             }
         }
 
@@ -81,6 +102,8 @@ namespace FurnitureShopBusinessLogic.BusnessLogics
                 ClientId = order.ClientId,
                 Count = order.Count,
                 Sum = order.Sum,
+                ImplementerFIO = order.ImplementerFIO,
+                ImplementerId = order.ImplementerId.Value,
                 DateCreate = order.DateCreate,
                 DateImplement = order.DateImplement,
                 Status = OrderStatus.Готов
@@ -105,6 +128,8 @@ namespace FurnitureShopBusinessLogic.BusnessLogics
                 ClientId = order.ClientId,
                 Count = order.Count,
                 Sum = order.Sum,
+                ImplementerFIO = order.ImplementerFIO,
+                ImplementerId = order.ImplementerId.Value,
                 DateCreate = order.DateCreate,
                 DateImplement = order.DateImplement,
                 Status = OrderStatus.Оплачен

@@ -10,6 +10,7 @@ namespace FurnitureShopBusinessLogic.BindingModels
         public int? Id { get; set; }
         public int FurnitureId { get; set; }
         public int ClientId { get; set; }
+        public int? ImplementerId { get; set; }
         public int Count { get; set; }
         public decimal Sum { get; set; }
         public OrderStatus Status { get; set; }
@@ -17,5 +18,9 @@ namespace FurnitureShopBusinessLogic.BindingModels
         public DateTime? DateImplement { get; set; }
         public DateTime? DateFrom { get; set; }
         public DateTime? DateTo { get; set; }
+        public bool? FreeOrders { get; set; }
+        public bool? NotEnoughMaterialsOrders { get; set; }
+        public string ImplementerFIO { get; set; }
+        public string ClientFIO { get; set; }
     }
 }
