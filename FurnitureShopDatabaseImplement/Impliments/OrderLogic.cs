@@ -1,4 +1,5 @@
 ﻿using FurnitureShopBusinessLogic.BindingModels;
+using FurnitureShopBusinessLogic.Enums;
 using FurnitureShopBusinessLogic.Interfaces;
 using FurnitureShopBusinessLogic.ViewModels;
 using FurnitureShopDatabaseImplement.Models;
@@ -35,6 +36,8 @@ namespace FurnitureShopDatabaseImplement.Impliments
                 element.FurnitureId = model.FurnitureId == 0 ? element.FurnitureId : model.FurnitureId;
                 element.Count = model.Count;
                 element.ClientFIO = model.ClientFIO;
+                element.ImplementerFIO = model.ImplementerFIO;
+                element.ImplementerId = model.ImplementerId == 0 ? element.ImplementerId : model.ImplementerId; ;
                 element.Sum = model.Sum;
                 element.Status = model.Status;
                 element.DateCreate = model.DateCreate;
@@ -62,25 +65,26 @@ namespace FurnitureShopDatabaseImplement.Impliments
         {
             using (var context = new FurnitureShopDatabase())
             {
-                return context.Orders
-                .Where(rec => model == null || (rec.Id == model.Id && model.Id.HasValue)
-                || (model.DateFrom.HasValue && model.DateTo.HasValue && rec.DateCreate >= model.DateFrom && rec.DateCreate <= model.DateTo) ||
-                (model.ClientId.HasValue && rec.ClientId == model.ClientId))
-                .Select(rec => new OrderViewModel
+                return context.Orders.Where(rec => model == null || rec.Id == model.Id || (rec.DateCreate >= model.DateFrom)
+                && (rec.DateCreate <= model.DateTo) || (model.ClientId == rec.ClientId) ||
+                (model.FreeOrder.HasValue && model.FreeOrder.Value && !(rec.ImplementerFIO != null)) ||
+                (model.ImplementerId.HasValue && rec.ImplementerId == model.ImplementerId.Value && rec.Status == OrderStatus.Выполняется))
+                .Include(ord => ord.Furnitures)
+                .Select(rec => new OrderViewModel()
                 {
                     Id = rec.Id,
-                    ClientId = rec.ClientId,
                     FurnitureId = rec.FurnitureId,
                     ClientFIO = rec.ClientFIO,
+                    ClientId = rec.ClientId,
+                    FurnitureName = rec.Furnitures.FurnitureName,
+                    ImplementerId = rec.ImplementerId,
+                    ImplementerFIO = rec.Implementer.ImplementerFIO,
                     Count = rec.Count,
-                    Sum = rec.Sum,
-                    Status = rec.Status,
                     DateCreate = rec.DateCreate,
                     DateImplement = rec.DateImplement,
-                    FurnitureName = context.Furnitures.FirstOrDefault(recS => recS.Id ==
-                    rec.FurnitureId).FurnitureName,
-                })
-            .ToList();
+                    Status = rec.Status,
+                    Sum = rec.Sum
+                }).ToList();
             }
         }
     }

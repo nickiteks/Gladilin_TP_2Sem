@@ -23,5 +23,8 @@ namespace FurnitureShopDatabaseImplement.Models
         public DateTime DateCreate { get; set; }
         public DateTime? DateImplement { get; set; }
         public virtual Furniture Furnitures { get; set; }
+        public int? ImplementerId { set; get; }
+        public virtual Client Client { set; get; }
+        public virtual Implementer Implementer { set; get; }
     }
 }
