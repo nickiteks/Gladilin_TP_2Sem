@@ -1,7 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Threading.Tasks;
+using FurnitureShopBusinessLogic.BusnessLogics;
+using FurnitureShopBusinessLogic.HelperModels;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
@@ -13,6 +16,13 @@ namespace FurnitureShopRestApi
     {
         public static void Main(string[] args)
         {
+            MailLogic.MailConfig(new MailConfig
+            {
+                SmtpClientHost = ConfigurationManager.AppSettings["SmtpClientHost"],
+                SmtpClientPort = Convert.ToInt32(ConfigurationManager.AppSettings["SmtpClientPort"]),
+                MailLogin = ConfigurationManager.AppSettings["MailLogin"],
+                MailPassword = ConfigurationManager.AppSettings["MailPassword"],
+            });
             CreateHostBuilder(args).Build().Run();
         }
 

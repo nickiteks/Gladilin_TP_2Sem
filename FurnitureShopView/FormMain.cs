@@ -39,8 +39,9 @@ namespace FurnitureShopView
                 dataGridView.DataSource = listOrders;
                 dataGridView.Columns[0].Visible = false;
                 dataGridView.Columns[1].Visible = false;
-                dataGridView.Columns[3].Visible = false;
-                dataGridView.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
+                dataGridView.Columns[2].Visible = false;
+                dataGridView.Columns[3].Visible = true;
+                dataGridView.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
                 dataGridView.Columns[11].Visible = false;
             }
             dataGridView.Update();
@@ -158,6 +159,12 @@ namespace FurnitureShopView
                    MessageBoxIcon.Error);
                 }
             }
+        }
+
+        private void сообщенияToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormMessages>();
+            form.ShowDialog();
         }
     }
 }
