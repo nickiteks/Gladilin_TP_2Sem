@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FurnitureShopBusinessLogic\FurnitureShopBusinessLogic.csproj" />
+    <ProjectReference Include="..\FurnitureShopDatabaseImplement\FurnitureShopDatabaseImplement.csproj" />
+    <ProjectReference Include="..\FurnitureShopFileImplement\FurnitureShopFileImplement.csproj" />
+    <ProjectReference Include="..\FurnitureShopListImplement\FurnitureShopListImplement.csproj" />
+    <ProjectReference Include="..\FurnitureShopView\FurnitureShopView.csproj" />
+  </ItemGroup>
+
+</Project>
