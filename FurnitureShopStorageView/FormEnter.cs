@@ -17,10 +17,9 @@ namespace FurnitureShopStorageView
         }
         private void ButtonLogin_Click(object sender, EventArgs e)
         {
-            if (!string.IsNullOrEmpty(textBoxEmail.Text) && !string.IsNullOrEmpty(textBoxPassword.Text))
+             if (!string.IsNullOrEmpty(textBoxPassword.Text))
             {
-                if (textBoxEmail.Text == ConfigurationManager.AppSettings["Login"] &&
-                    textBoxPassword.Text == ConfigurationManager.AppSettings["Password"])
+                if (textBoxPassword.Text == ConfigurationManager.AppSettings["Password"])
                 {
                     Program.isLogged = true;
                     Close();
