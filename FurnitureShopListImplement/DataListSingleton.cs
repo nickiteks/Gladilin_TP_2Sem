@@ -13,6 +13,7 @@ namespace FurnitureShopListImplement.Models
         public List<FurnitureComponent> FurnitureComponents { get; set; }
         public List<Client> clients { get; set; }
         public List<Implementer> Implementers { get; set; }
+        public List<MessageInfo> MessageInfoes { get; set; }
         private DataListSingleton()
         {
             Components = new List<Component>();
@@ -21,6 +22,7 @@ namespace FurnitureShopListImplement.Models
             FurnitureComponents = new List<FurnitureComponent>();
             clients = new List<Client>();
             Implementers = new List<Implementer>();
+            MessageInfoes = new List<MessageInfo>();
         }
         public static DataListSingleton GetInstance()
         {
