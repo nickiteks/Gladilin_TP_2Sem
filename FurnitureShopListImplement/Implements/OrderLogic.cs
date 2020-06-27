@@ -12,6 +12,7 @@ namespace FurnitureShopListImplement.Implements
     public class OrderLogic : IOrderLogic
     {
         private readonly DataListSingleton source;
+
         public OrderLogic()
         {
             source = DataListSingleton.GetInstance();
@@ -22,15 +23,19 @@ namespace FurnitureShopListImplement.Implements
             {
                 Id = 1
             };
-            foreach (var Order in source.Orders)
+            foreach (var order in source.Orders)
             {
-                if (!model.Id.HasValue && Order.Id >= tempOrder.Id)
+                if (order.DateCreate == model.DateCreate && order.Count == model.Count && order.FurnitureId == model.FurnitureId && order.Sum == model.Sum && order.Status == model.Status && order.Id != model.Id)
                 {
-                    tempOrder.Id = Order.Id + 1;
+                    throw new Exception("Такой заказ уже есть");
                 }
-                else if (model.Id.HasValue && Order.Id == model.Id)
+                if (!model.Id.HasValue && order.Id >= tempOrder.Id)
                 {
-                    tempOrder = Order;
+                    tempOrder.Id = order.Id + 1;
+                }
+                else if (model.Id.HasValue && order.Id == model.Id)
+                {
+                    tempOrder = order;
                 }
             }
             if (model.Id.HasValue)
@@ -58,54 +63,52 @@ namespace FurnitureShopListImplement.Implements
             }
             throw new Exception("Элемент не найден");
         }
+
         public List<OrderViewModel> Read(OrderBindingModel model)
         {
             List<OrderViewModel> result = new List<OrderViewModel>();
-            foreach (var Order in source.Orders)
+            foreach (var order in source.Orders)
             {
-                if (model != null)
+                if (
+                    model != null && Order.Id == model.Id
+                    || model.DateFrom.HasValue && model.DateTo.HasValue && Order.DateCreate >= model.DateFrom && Order.DateCreate <= model.DateTo
+                    || model.ClientId.HasValue && Order.ClientId == model.ClientId
+                )
                 {
-                    if (Order.Id == model.Id || (model.DateFrom.HasValue && model.DateTo.HasValue && Order.DateCreate >= model.DateFrom && Order.DateCreate <= model.DateTo))
+                    if (order.Id == model.Id)
                     {
-                        result.Add(CreateViewModel(Order));
+                        result.Add(CreateViewModel(order));
                         break;
                     }
                     continue;
                 }
-                result.Add(CreateViewModel(Order));
+                result.Add(CreateViewModel(order));
             }
             return result;
         }
-        private Order CreateModel(OrderBindingModel model, Order Order)
+        private Order CreateModel(OrderBindingModel model, Order order)
         {
-            Order.FurnitureId = model.FurnitureId == 0 ? Order.FurnitureId : model.FurnitureId;
-            Order.Count = model.Count;
-            Order.Sum = model.Sum;
-            Order.Status = model.Status;
-            Order.DateCreate = model.DateCreate;
-            Order.DateImplement = model.DateImplement;
-            return Order;
+            order.Count = model.Count;
+            order.DateCreate = model.DateCreate;
+            order.DateImplement = model.DateImplement;
+            order.FurnitureId = model.FurnitureId;
+            order.Status = model.Status;
+            order.Sum = model.Sum;
+            return order;
         }
-        private OrderViewModel CreateViewModel(Order Order)
+        private OrderViewModel CreateViewModel(Order order)
         {
-            string ForgeProductName = "";
-            for (int j = 0; j < source.Furnitures.Count; ++j)
-            {
-                if (source.Furnitures[j].Id == Order.FurnitureId)
-                {
-                    ForgeProductName = source.Furnitures[j].FurnitureName;
-                    break;
-                }
-            }
+            var dressName = source.Furnitures.FirstOrDefault((n) => n.Id == order.FurnitureId).FurnitureName;
             return new OrderViewModel
             {
-                Id = Order.Id,
-                FurnitureName = ForgeProductName,
-                Count = Order.Count,
-                Sum = Order.Sum,
-                Status = Order.Status,
-                DateCreate = Order.DateCreate,
-                DateImplement = Order.DateImplement
+                Id = order.Id,
+                Count = order.Count,
+                DateCreate = order.DateCreate,
+                DateImplement = order.DateImplement,
+                FurnitureName = dressName,
+                FurnitureId = order.FurnitureId,
+                Status = order.Status,
+                Sum = order.Sum
             };
         }
     }

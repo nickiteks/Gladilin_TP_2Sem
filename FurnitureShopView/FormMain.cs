@@ -8,6 +8,8 @@ using FurnitureShopBusinessLogic.ViewModels;
 using System.Collections.Generic;
 using FurnitureShopBusinessLogic.BusnessLogics;
 using FurnitureShopListImplement.Models;
+using FurnitureShopView;
+using FurnitureShopBusinessLogic;
 
 namespace FurnitureShopView
 {
@@ -18,7 +20,7 @@ namespace FurnitureShopView
         private readonly MainLogic logic;
         private readonly IOrderLogic orderLogic;
         private readonly ReportLogic report;
-        public FormMain(MainLogic logic, IOrderLogic orderLogic , ReportLogic report)
+        public FormMain(MainLogic logic, IOrderLogic orderLogic, ReportLogic report)
         {
             InitializeComponent();
             this.logic = logic;
@@ -125,6 +127,7 @@ namespace FurnitureShopView
             var form = Container.Resolve<FormFurnitures>();
             form.ShowDialog();
         }
+
         private void СкладыToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var form = Container.Resolve<FormStorage>();
@@ -141,6 +144,62 @@ namespace FurnitureShopView
         {
             var form = Container.Resolve<FormStorageComonent>();
             form.ShowDialog();
+        }
+
+        private void мебельToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (var dialog = new SaveFileDialog { Filter = "docx|*.docx" })
+            {
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    report.SaveFurnitureesToWordFile(new ReportBindingModel
+                    {
+                        FileName = dialog.FileName
+                    });
+                    MessageBox.Show("Выполнено", "Успех", MessageBoxButtons.OK,
+                   MessageBoxIcon.Information);
+                }
+            }
+        }
+
+        private void заказыПоМебелиToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormReportFurnitureOrders>();
+            form.ShowDialog();
+        }
+
+        private void компонентыПоМебелиToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormReportFurnitureComponents>();
+            form.ShowDialog();
+        }
+
+        private void компонентыПоСкладамToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormReportStorages>();
+            form.ShowDialog();
+        }
+
+        private void компонентыНаСкладахToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormReportComponentsStorages>();
+            form.ShowDialog();
+        }
+
+        private void складыToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            using (var dialog = new SaveFileDialog { Filter = "docx|*.docx" })
+            {
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    report.SaveStoragesToWordFile(new ReportBindingModel
+                    {
+                        FileName = dialog.FileName
+                    });
+                    MessageBox.Show("Выполнено", "Успех", MessageBoxButtons.OK,
+                   MessageBoxIcon.Information);
+                }
+            }
         }
     }
 }

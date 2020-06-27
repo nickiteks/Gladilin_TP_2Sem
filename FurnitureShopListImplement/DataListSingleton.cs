@@ -12,7 +12,8 @@ namespace FurnitureShopListImplement.Models
         public List<Furniture> Furnitures { get; set; }
         public List<FurnitureComponent> FurnitureComponents { get; set; }
         public List<Storage> Storages { get; set; }
-        public List<StorageComponent> StorageComponents { get ; set; }
+        public List<StorageComponent> StorageComponents { get; set; }
+        public List<Client> clients { get; set; }
         private DataListSingleton()
         {
             Components = new List<Component>();
@@ -21,6 +22,7 @@ namespace FurnitureShopListImplement.Models
             FurnitureComponents = new List<FurnitureComponent>();
             Storages = new List<Storage>();
             StorageComponents = new List<StorageComponent>();
+            clients = new List<Client>();
         }
         public static DataListSingleton GetInstance()
         {
