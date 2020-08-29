@@ -10,7 +10,6 @@ using FurnitureShopBusinessLogic.BusnessLogics;
 using FurnitureShopListImplement.Models;
 using FurnitureShopView;
 using FurnitureShopBusinessLogic;
-using AbstractShopView;
 
 namespace FurnitureShopView
 {
