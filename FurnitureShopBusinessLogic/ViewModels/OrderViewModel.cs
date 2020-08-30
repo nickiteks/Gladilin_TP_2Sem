@@ -13,8 +13,12 @@ namespace FurnitureShopBusinessLogic.ViewModels
         public int FurnitureId { get; set; }
         [DataMember]
         public int ClientId { get; set; }
+        [DataMember]
+        public int? ImplementerId { get; set; }
         [DisplayName("Изделие")]
         public string FurnitureName { get; set; }
+        [DisplayName("Рабочий")]
+        public string ImplementerFIO { set; get; }
         [DataMember]
         [DisplayName("Клиент")]
         public string ClientFIO { get; set; }

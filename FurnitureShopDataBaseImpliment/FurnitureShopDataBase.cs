@@ -13,7 +13,7 @@ namespace FurnitureShopDataBaseImpliment
             if (optionsBuilder.IsConfigured == false)
             {
                 optionsBuilder.UseSqlServer(@"Data Source=DESKTOP-46FCCKM\SQLEXPRESS;
-                Initial Catalog=FurnitureShopStorageDatabase;Integrated Security=True;MultipleActiveResultSets=True;");
+                Initial Catalog=Lab6FurnitureShopStorageDatabase;Integrated Security=True;MultipleActiveResultSets=True;");
             }
             base.OnConfiguring(optionsBuilder);
         }
@@ -25,5 +25,6 @@ namespace FurnitureShopDataBaseImpliment
         public virtual DbSet<Storage> Storages { set; get; }
         public virtual DbSet<StorageComponent> StorageComponents { set; get; }
         public virtual DbSet<Client> Clients { get; set; }
+        public virtual DbSet<Implementer> Implementers { get; set; }
     }
 }

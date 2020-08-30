@@ -1,4 +1,5 @@
 ﻿using FurnitureShopBusinessLogic.BindingModels;
+using FurnitureShopBusinessLogic.Enums;
 using FurnitureShopBusinessLogic.Interfaces;
 using FurnitureShopBusinessLogic.ViewModels;
 using FurnitureShopDataBaseImpliment.Models;
@@ -29,6 +30,8 @@ namespace FurnitureShopDataBaseImpliment.Impliments
                     context.Orders.Add(order);
                 }
                 order.ClientId = model.ClientId;
+                order.ImplementerId = model.ImplementerId;
+                order.ImplementerFIO = model.ImplementerFIO;
                 order.FurnitureId = model.FurnitureId;
                 order.Count = model.Count;
                 order.DateCreate = model.DateCreate;
@@ -64,9 +67,13 @@ namespace FurnitureShopDataBaseImpliment.Impliments
                 .Where(rec => model == null ||
                 (model.Id != null && rec.Id == model.Id) ||
                 (model.ClientId == rec.ClientId) ||
-                (model.DateFrom != null && model.DateTo != null && rec.DateCreate >= model.DateFrom && rec.DateCreate <= model.DateTo))
+                (model.DateFrom != null && model.DateTo != null && rec.DateCreate >= model.DateFrom && rec.DateCreate <= model.DateTo) ||
+                (model.FreeOrders.HasValue && model.FreeOrders.Value && !rec.ImplementerId.HasValue) ||
+                (model.ImplementerId.HasValue && rec.ImplementerId == model.ImplementerId && rec.Status == OrderStatus.Выполняется) ||
+                (model.NotEnoughMaterialsOrders.HasValue && model.NotEnoughMaterialsOrders.Value && rec.Status == OrderStatus.Треубются_материалы))
                 .Include(rec => rec.Furniture)
                 .Include(rec => rec.Client)
+                .Include(rec => rec.Implementer)
                 .Select(rec => new OrderViewModel
                 {
                     Id = rec.Id,
@@ -74,6 +81,8 @@ namespace FurnitureShopDataBaseImpliment.Impliments
                     ClientId = rec.ClientId,
                     ClientFIO = rec.Client.Fio,
                     FurnitureName = rec.Furniture.FurnitureName,
+                    ImplementerId = rec.ImplementerId,
+                    ImplementerFIO = rec.Implementer.ImplementerFIO,
                     Count = rec.Count,
                     DateCreate = rec.DateCreate,
                     DateImplement = rec.DateImplement,

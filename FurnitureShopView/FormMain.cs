@@ -20,12 +20,14 @@ namespace FurnitureShopView
         private readonly MainLogic logic;
         private readonly IOrderLogic orderLogic;
         private readonly ReportLogic report;
-        public FormMain(MainLogic logic, IOrderLogic orderLogic, ReportLogic report)
+        private readonly WorkModeling workModeling;
+        public FormMain(MainLogic logic, IOrderLogic orderLogic, ReportLogic report, WorkModeling workModeling)
         {
             InitializeComponent();
             this.logic = logic;
             this.orderLogic = orderLogic;
             this.report = report;
+            this.workModeling = workModeling;
         }
         private void FormMain_Load(object sender, EventArgs e)
         {
@@ -200,6 +202,17 @@ namespace FurnitureShopView
                    MessageBoxIcon.Information);
                 }
             }
+        }
+
+        private void запускРаботToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            workModeling.DoWork();
+        }
+
+        private void исполнителиToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormImplementers>();
+            form.ShowDialog();
         }
     }
 }
